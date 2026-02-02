@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.platform.mapper.MovieMapper">
+
+    <select id="queryPage" resultType="com.project.platform.entity.Movie">
+        SELECT m.*
+        FROM movie m
+        <include refid="queryConditions"/>
+        ORDER BY m.id DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="queryCount" resultType="int">
+        SELECT count(m.id) FROM movie m
+        <include refid="queryConditions"/>
+    </select>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" resultType="com.project.platform.entity.Movie">
+        SELECT * FROM movie WHERE id = #{id}
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="list" resultType="com.project.platform.entity.Movie">
+        SELECT * FROM movie ORDER BY id DESC
+    </select>
+
+    <sql id="queryConditions">
+        <where>
+            <if test="query.name != null and query.name.trim() != ''">
+                AND m.name LIKE CONCAT('%', #{query.name}, '%')
+            </if>
+            <if test="query.director != null and query.director.trim() != ''">
+                AND m.director LIKE CONCAT('%', #{query.director}, '%')
+            </if>
+            <if test="query.status != null and query.status.trim() != ''">
+                AND m.status = #{query.status}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 插入 -->
+    <insert id="insert" parameterType="com.project.platform.entity.Movie" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO movie
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="englishName != null">english_name,</if>
+            <if test="director != null">director,</if>
+            <if test="description != null">description,</if>
+            <if test="posterUrl != null">poster_url,</if>
+            <if test="trailerUrl != null">trailer_url,</if>
+            <if test="duration != null">duration,</if>
+            <if test="releaseDate != null">release_date,</if>
+            <if test="country != null">country,</if>
+            <if test="language != null">language,</if>
+            <if test="rating != null">rating,</if>
+            <if test="ratingCount != null">rating_count,</if>
+            <if test="boxOffice != null">box_office,</if>
+            <if test="viewCount != null">view_count,</if>
+            <if test="favoriteCount != null">favorite_count,</if>
+            <if test="status != null">status,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="englishName != null">#{englishName},</if>
+            <if test="director != null">#{director},</if>
+            <if test="description != null">#{description},</if>
+            <if test="posterUrl != null">#{posterUrl},</if>
+            <if test="trailerUrl != null">#{trailerUrl},</if>
+            <if test="duration != null">#{duration},</if>
+            <if test="releaseDate != null">#{releaseDate},</if>
+            <if test="country != null">#{country},</if>
+            <if test="language != null">#{language},</if>
+            <if test="rating != null">#{rating},</if>
+            <if test="ratingCount != null">#{ratingCount},</if>
+            <if test="boxOffice != null">#{boxOffice},</if>
+            <if test="viewCount != null">#{viewCount},</if>
+            <if test="favoriteCount != null">#{favoriteCount},</if>
+            <if test="status != null">#{status},</if>
+        </trim>
+    </insert>
+
+    <!-- 更新 -->
+    <update id="updateById" parameterType="com.project.platform.entity.Movie">
+        UPDATE movie
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="englishName != null">
+                english_name = #{englishName},
+            </if>
+            <if test="director != null">
+                director = #{director},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="posterUrl != null">
+                poster_url = #{posterUrl},
+            </if>
+            <if test="trailerUrl != null">
+                trailer_url = #{trailerUrl},
+            </if>
+            <if test="duration != null">
+                duration = #{duration},
+            </if>
+            <if test="releaseDate != null">
+                release_date = #{releaseDate},
+            </if>
+            <if test="country != null">
+                country = #{country},
+            </if>
+            <if test="language != null">
+                language = #{language},
+            </if>
+            <if test="rating != null">
+                rating = #{rating},
+            </if>
+            <if test="ratingCount != null">
+                rating_count = #{ratingCount},
+            </if>
+            <if test="boxOffice != null">
+                box_office = #{boxOffice},
+            </if>
+            <if test="viewCount != null">
+                view_count = #{viewCount},
+            </if>
+            <if test="favoriteCount != null">
+                favorite_count = #{favoriteCount},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据ID列表删除 -->
+    <delete id="removeByIds">
+        DELETE FROM movie
+        WHERE id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
+

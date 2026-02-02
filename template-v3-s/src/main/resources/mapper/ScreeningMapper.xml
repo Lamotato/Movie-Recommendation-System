@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.platform.mapper.ScreeningMapper">
+
+    <select id="queryPage" resultType="com.project.platform.entity.Screening">
+        SELECT s.*
+        FROM screening s
+        <include refid="queryConditions"/>
+        ORDER BY s.start_time DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="queryCount" resultType="int">
+        SELECT count(s.id) FROM screening s
+        <include refid="queryConditions"/>
+    </select>
+
+    <!-- 根据ID查询 -->
+    <select id="selectByPrimaryKey" resultType="com.project.platform.entity.Screening">
+        SELECT * FROM screening WHERE id = #{id}
+    </select>
+
+    <sql id="queryConditions">
+        <where>
+            <if test="query.movieId != null">
+                AND s.movie_id = #{query.movieId}
+            </if>
+            <if test="query.cinemaId != null">
+                AND s.cinema_id = #{query.cinemaId}
+            </if>
+            <if test="query.status != null and query.status.trim() != ''">
+                AND s.status = #{query.status}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 插入 -->
+    <insert id="insert" parameterType="com.project.platform.entity.Screening" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO screening
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="movieId != null">movie_id,</if>
+            <if test="cinemaId != null">cinema_id,</if>
+            <if test="roomId != null">room_id,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="price != null">price,</if>
+            <if test="status != null">status,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="movieId != null">#{movieId},</if>
+            <if test="cinemaId != null">#{cinemaId},</if>
+            <if test="roomId != null">#{roomId},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="price != null">#{price},</if>
+            <if test="status != null">#{status},</if>
+        </trim>
+    </insert>
+
+    <!-- 更新 -->
+    <update id="updateById" parameterType="com.project.platform.entity.Screening">
+        UPDATE screening
+        <set>
+            <if test="movieId != null">movie_id = #{movieId},</if>
+            <if test="cinemaId != null">cinema_id = #{cinemaId},</if>
+            <if test="roomId != null">room_id = #{roomId},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id="removeById">
+        DELETE FROM screening WHERE id = #{id}
+    </delete>
+
+</mapper>

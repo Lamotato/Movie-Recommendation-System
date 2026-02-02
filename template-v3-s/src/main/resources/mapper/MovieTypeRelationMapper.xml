@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.platform.mapper.MovieTypeRelationMapper">
+
+    <!-- 根据电影ID查询类型ID列表 -->
+    <select id="listTypeIdsByMovieId" resultType="int">
+        SELECT type_id
+        FROM movie_type_relation
+        WHERE movie_id = #{movieId}
+    </select>
+
+    <!-- 批量插入 -->
+    <insert id="batchInsert" parameterType="com.project.platform.entity.MovieTypeRelation">
+        INSERT INTO movie_type_relation (movie_id, type_id)
+        VALUES
+        <foreach item="item" collection="list" separator=",">
+            (#{item.movieId}, #{item.typeId})
+        </foreach>
+    </insert>
+
+    <!-- 根据电影ID删除 -->
+    <delete id="deleteByMovieId">
+        DELETE FROM movie_type_relation WHERE movie_id = #{movieId}
+    </delete>
+</mapper>
+

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.platform.mapper.MovieCastMapper">
+
+    <resultMap id="BaseResultMap" type="com.project.platform.entity.MovieCast">
+            <id property="id" column="id" />
+            <result property="movieId" column="movie_id" />
+            <result property="name" column="name" />
+            <result property="role" column="role" />
+            <result property="characterName" column="character_name" />
+            <result property="avatarUrl" column="avatar_url" />
+            <result property="sortOrder" column="sort_order" />
+            <result property="createTime" column="create_time" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,movie_id,name,role,character_name,avatar_url,
+        sort_order,create_time
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from movie_cast
+        where  id = #{id} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from movie_cast
+        where  id = #{id} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.project.platform.entity.MovieCast" useGeneratedKeys="true">
+        insert into movie_cast
+        ( id,movie_id,name,role,character_name,avatar_url,
+        sort_order,create_time)
+        values (#{id},#{movieId},#{name},#{role},#{characterName},#{avatarUrl},
+        #{sortOrder},#{createTime})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.project.platform.entity.MovieCast" useGeneratedKeys="true">
+        insert into movie_cast
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="movieId != null">movie_id,</if>
+                <if test="name != null">name,</if>
+                <if test="role != null">role,</if>
+                <if test="characterName != null">character_name,</if>
+                <if test="avatarUrl != null">avatar_url,</if>
+                <if test="sortOrder != null">sort_order,</if>
+                <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id},</if>
+                <if test="movieId != null">#{movieId},</if>
+                <if test="name != null">#{name},</if>
+                <if test="role != null">#{role},</if>
+                <if test="characterName != null">#{characterName},</if>
+                <if test="avatarUrl != null">#{avatarUrl},</if>
+                <if test="sortOrder != null">#{sortOrder},</if>
+                <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.project.platform.entity.MovieCast">
+        update movie_cast
+        <set>
+                <if test="movieId != null">
+                    movie_id = #{movieId},
+                </if>
+                <if test="name != null">
+                    name = #{name},
+                </if>
+                <if test="role != null">
+                    role = #{role},
+                </if>
+                <if test="characterName != null">
+                    character_name = #{characterName},
+                </if>
+                <if test="avatarUrl != null">
+                    avatar_url = #{avatarUrl},
+                </if>
+                <if test="sortOrder != null">
+                    sort_order = #{sortOrder},
+                </if>
+                <if test="createTime != null">
+                    create_time = #{createTime},
+                </if>
+        </set>
+        where   id = #{id} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.project.platform.entity.MovieCast">
+        update movie_cast
+        set 
+            movie_id =  #{movieId},
+            name =  #{name},
+            role =  #{role},
+            character_name =  #{characterName},
+            avatar_url =  #{avatarUrl},
+            sort_order =  #{sortOrder},
+            create_time =  #{createTime}
+        where   id = #{id} 
+    </update>
+</mapper>

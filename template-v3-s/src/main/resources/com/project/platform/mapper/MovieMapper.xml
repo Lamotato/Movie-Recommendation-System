@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.platform.mapper.MovieMapper">
+
+    <resultMap id="BaseResultMap" type="com.project.platform.entity.Movie">
+            <id property="id" column="id" />
+            <result property="name" column="name" />
+            <result property="englishName" column="english_name" />
+            <result property="director" column="director" />
+            <result property="description" column="description" />
+            <result property="posterUrl" column="poster_url" />
+            <result property="trailerUrl" column="trailer_url" />
+            <result property="duration" column="duration" />
+            <result property="releaseDate" column="release_date" />
+            <result property="country" column="country" />
+            <result property="language" column="language" />
+            <result property="rating" column="rating" />
+            <result property="ratingCount" column="rating_count" />
+            <result property="boxOffice" column="box_office" />
+            <result property="viewCount" column="view_count" />
+            <result property="favoriteCount" column="favorite_count" />
+            <result property="status" column="status" />
+            <result property="createTime" column="create_time" />
+            <result property="updateTime" column="update_time" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,english_name,director,description,poster_url,
+        trailer_url,duration,release_date,country,language,
+        rating,rating_count,box_office,view_count,favorite_count,
+        status,create_time,update_time
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from movie
+        where  id = #{id} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from movie
+        where  id = #{id} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.project.platform.entity.Movie" useGeneratedKeys="true">
+        insert into movie
+        ( id,name,english_name,director,description,poster_url,
+        trailer_url,duration,release_date,country,language,
+        rating,rating_count,box_office,view_count,favorite_count,
+        status,create_time,update_time)
+        values (#{id},#{name},#{englishName},#{director},#{description},#{posterUrl},
+        #{trailerUrl},#{duration},#{releaseDate},#{country},#{language},
+        #{rating},#{ratingCount},#{boxOffice},#{viewCount},#{favoriteCount},
+        #{status},#{createTime},#{updateTime})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.project.platform.entity.Movie" useGeneratedKeys="true">
+        insert into movie
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="name != null">name,</if>
+                <if test="englishName != null">english_name,</if>
+                <if test="director != null">director,</if>
+                <if test="description != null">description,</if>
+                <if test="posterUrl != null">poster_url,</if>
+                <if test="trailerUrl != null">trailer_url,</if>
+                <if test="duration != null">duration,</if>
+                <if test="releaseDate != null">release_date,</if>
+                <if test="country != null">country,</if>
+                <if test="language != null">language,</if>
+                <if test="rating != null">rating,</if>
+                <if test="ratingCount != null">rating_count,</if>
+                <if test="boxOffice != null">box_office,</if>
+                <if test="viewCount != null">view_count,</if>
+                <if test="favoriteCount != null">favorite_count,</if>
+                <if test="status != null">status,</if>
+                <if test="createTime != null">create_time,</if>
+                <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id},</if>
+                <if test="name != null">#{name},</if>
+                <if test="englishName != null">#{englishName},</if>
+                <if test="director != null">#{director},</if>
+                <if test="description != null">#{description},</if>
+                <if test="posterUrl != null">#{posterUrl},</if>
+                <if test="trailerUrl != null">#{trailerUrl},</if>
+                <if test="duration != null">#{duration},</if>
+                <if test="releaseDate != null">#{releaseDate},</if>
+                <if test="country != null">#{country},</if>
+                <if test="language != null">#{language},</if>
+                <if test="rating != null">#{rating},</if>
+                <if test="ratingCount != null">#{ratingCount},</if>
+                <if test="boxOffice != null">#{boxOffice},</if>
+                <if test="viewCount != null">#{viewCount},</if>
+                <if test="favoriteCount != null">#{favoriteCount},</if>
+                <if test="status != null">#{status},</if>
+                <if test="createTime != null">#{createTime},</if>
+                <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.project.platform.entity.Movie">
+        update movie
+        <set>
+                <if test="name != null">
+                    name = #{name},
+                </if>
+                <if test="englishName != null">
+                    english_name = #{englishName},
+                </if>
+                <if test="director != null">
+                    director = #{director},
+                </if>
+                <if test="description != null">
+                    description = #{description},
+                </if>
+                <if test="posterUrl != null">
+                    poster_url = #{posterUrl},
+                </if>
+                <if test="trailerUrl != null">
+                    trailer_url = #{trailerUrl},
+                </if>
+                <if test="duration != null">
+                    duration = #{duration},
+                </if>
+                <if test="releaseDate != null">
+                    release_date = #{releaseDate},
+                </if>
+                <if test="country != null">
+                    country = #{country},
+                </if>
+                <if test="language != null">
+                    language = #{language},
+                </if>
+                <if test="rating != null">
+                    rating = #{rating},
+                </if>
+                <if test="ratingCount != null">
+                    rating_count = #{ratingCount},
+                </if>
+                <if test="boxOffice != null">
+                    box_office = #{boxOffice},
+                </if>
+                <if test="viewCount != null">
+                    view_count = #{viewCount},
+                </if>
+                <if test="favoriteCount != null">
+                    favorite_count = #{favoriteCount},
+                </if>
+                <if test="status != null">
+                    status = #{status},
+                </if>
+                <if test="createTime != null">
+                    create_time = #{createTime},
+                </if>
+                <if test="updateTime != null">
+                    update_time = #{updateTime},
+                </if>
+        </set>
+        where   id = #{id} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.project.platform.entity.Movie">
+        update movie
+        set 
+            name =  #{name},
+            english_name =  #{englishName},
+            director =  #{director},
+            description =  #{description},
+            poster_url =  #{posterUrl},
+            trailer_url =  #{trailerUrl},
+            duration =  #{duration},
+            release_date =  #{releaseDate},
+            country =  #{country},
+            language =  #{language},
+            rating =  #{rating},
+            rating_count =  #{ratingCount},
+            box_office =  #{boxOffice},
+            view_count =  #{viewCount},
+            favorite_count =  #{favoriteCount},
+            status =  #{status},
+            create_time =  #{createTime},
+            update_time =  #{updateTime}
+        where   id = #{id} 
+    </update>
+</mapper>

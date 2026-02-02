@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.platform.mapper.CinemaRoomMapper">
+
+    <resultMap id="BaseResultMap" type="com.project.platform.entity.CinemaRoom">
+            <id property="id" column="id" />
+            <result property="cinemaId" column="cinema_id" />
+            <result property="name" column="name" />
+            <result property="rowCount" column="row_count" />
+            <result property="colCount" column="col_count" />
+            <result property="description" column="description" />
+            <result property="status" column="status" />
+            <result property="createTime" column="create_time" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,cinema_id,name,row_count,col_count,description,
+        status,create_time
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from cinema_room
+        where  id = #{id} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from cinema_room
+        where  id = #{id} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.project.platform.entity.CinemaRoom" useGeneratedKeys="true">
+        insert into cinema_room
+        ( id,cinema_id,name,row_count,col_count,description,
+        status,create_time)
+        values (#{id},#{cinemaId},#{name},#{rowCount},#{colCount},#{description},
+        #{status},#{createTime})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.project.platform.entity.CinemaRoom" useGeneratedKeys="true">
+        insert into cinema_room
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="cinemaId != null">cinema_id,</if>
+                <if test="name != null">name,</if>
+                <if test="rowCount != null">row_count,</if>
+                <if test="colCount != null">col_count,</if>
+                <if test="description != null">description,</if>
+                <if test="status != null">status,</if>
+                <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id},</if>
+                <if test="cinemaId != null">#{cinemaId},</if>
+                <if test="name != null">#{name},</if>
+                <if test="rowCount != null">#{rowCount},</if>
+                <if test="colCount != null">#{colCount},</if>
+                <if test="description != null">#{description},</if>
+                <if test="status != null">#{status},</if>
+                <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.project.platform.entity.CinemaRoom">
+        update cinema_room
+        <set>
+                <if test="cinemaId != null">
+                    cinema_id = #{cinemaId},
+                </if>
+                <if test="name != null">
+                    name = #{name},
+                </if>
+                <if test="rowCount != null">
+                    row_count = #{rowCount},
+                </if>
+                <if test="colCount != null">
+                    col_count = #{colCount},
+                </if>
+                <if test="description != null">
+                    description = #{description},
+                </if>
+                <if test="status != null">
+                    status = #{status},
+                </if>
+                <if test="createTime != null">
+                    create_time = #{createTime},
+                </if>
+        </set>
+        where   id = #{id} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.project.platform.entity.CinemaRoom">
+        update cinema_room
+        set 
+            cinema_id =  #{cinemaId},
+            name =  #{name},
+            row_count =  #{rowCount},
+            col_count =  #{colCount},
+            description =  #{description},
+            status =  #{status},
+            create_time =  #{createTime}
+        where   id = #{id} 
+    </update>
+</mapper>

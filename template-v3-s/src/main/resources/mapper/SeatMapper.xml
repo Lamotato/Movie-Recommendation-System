@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.platform.mapper.SeatMapper">
+
+    <!-- 根据房间ID查询座位列表 -->
+    <select id="listByRoomId" resultType="com.project.platform.entity.Seat">
+        SELECT * FROM seat WHERE room_id = #{roomId} ORDER BY row_num, col_num
+    </select>
+
+    <!-- 根据房间ID和位置查询座位 -->
+    <select id="selectByRoomIdAndPosition" resultType="com.project.platform.entity.Seat">
+        SELECT * FROM seat WHERE room_id = #{roomId} AND row_num = #{rowNum} AND col_num = #{colNum}
+    </select>
+
+    <!-- 根据ID列表查询座位 -->
+    <select id="listByIds" resultType="com.project.platform.entity.Seat">
+        SELECT * FROM seat WHERE id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <!-- 根据ID查询 -->
+    <select id="selectByPrimaryKey" resultType="com.project.platform.entity.Seat">
+        SELECT * FROM seat WHERE id = #{id}
+    </select>
+
+    <!-- 插入 -->
+    <insert id="insert" parameterType="com.project.platform.entity.Seat" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO seat
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="roomId != null">room_id,</if>
+            <if test="rowNum != null">row_num,</if>
+            <if test="colNum != null">col_num,</if>
+            <if test="seatType != null">seat_type,</if>
+            <if test="status != null">status,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="roomId != null">#{roomId},</if>
+            <if test="rowNum != null">#{rowNum},</if>
+            <if test="colNum != null">#{colNum},</if>
+            <if test="seatType != null">#{seatType},</if>
+            <if test="status != null">#{status},</if>
+        </trim>
+    </insert>
+
+</mapper>

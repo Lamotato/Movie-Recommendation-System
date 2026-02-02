@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.platform.mapper.OrderDetailMapper">
+
+    <resultMap id="BaseResultMap" type="com.project.platform.entity.OrderDetail">
+            <id property="id" column="id" />
+            <result property="orderId" column="order_id" />
+            <result property="seatId" column="seat_id" />
+            <result property="price" column="price" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,order_id,seat_id,price
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from order_detail
+        where  id = #{id} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from order_detail
+        where  id = #{id} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.project.platform.entity.OrderDetail" useGeneratedKeys="true">
+        insert into order_detail
+        ( id,order_id,seat_id,price)
+        values (#{id},#{orderId},#{seatId},#{price})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.project.platform.entity.OrderDetail" useGeneratedKeys="true">
+        insert into order_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="orderId != null">order_id,</if>
+                <if test="seatId != null">seat_id,</if>
+                <if test="price != null">price,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id},</if>
+                <if test="orderId != null">#{orderId},</if>
+                <if test="seatId != null">#{seatId},</if>
+                <if test="price != null">#{price},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.project.platform.entity.OrderDetail">
+        update order_detail
+        <set>
+                <if test="orderId != null">
+                    order_id = #{orderId},
+                </if>
+                <if test="seatId != null">
+                    seat_id = #{seatId},
+                </if>
+                <if test="price != null">
+                    price = #{price},
+                </if>
+        </set>
+        where   id = #{id} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.project.platform.entity.OrderDetail">
+        update order_detail
+        set 
+            order_id =  #{orderId},
+            seat_id =  #{seatId},
+            price =  #{price}
+        where   id = #{id} 
+    </update>
+</mapper>

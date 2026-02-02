@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.platform.mapper.MovieTypeMapper">
+
+    <resultMap id="BaseResultMap" type="com.project.platform.entity.MovieType">
+            <id property="id" column="id" />
+            <result property="name" column="name" />
+            <result property="description" column="description" />
+            <result property="status" column="status" />
+            <result property="createTime" column="create_time" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,description,status,create_time
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from movie_type
+        where  id = #{id} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from movie_type
+        where  id = #{id} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.project.platform.entity.MovieType" useGeneratedKeys="true">
+        insert into movie_type
+        ( id,name,description,status,create_time)
+        values (#{id},#{name},#{description},#{status},#{createTime})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.project.platform.entity.MovieType" useGeneratedKeys="true">
+        insert into movie_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="name != null">name,</if>
+                <if test="description != null">description,</if>
+                <if test="status != null">status,</if>
+                <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id},</if>
+                <if test="name != null">#{name},</if>
+                <if test="description != null">#{description},</if>
+                <if test="status != null">#{status},</if>
+                <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.project.platform.entity.MovieType">
+        update movie_type
+        <set>
+                <if test="name != null">
+                    name = #{name},
+                </if>
+                <if test="description != null">
+                    description = #{description},
+                </if>
+                <if test="status != null">
+                    status = #{status},
+                </if>
+                <if test="createTime != null">
+                    create_time = #{createTime},
+                </if>
+        </set>
+        where   id = #{id} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.project.platform.entity.MovieType">
+        update movie_type
+        set 
+            name =  #{name},
+            description =  #{description},
+            status =  #{status},
+            create_time =  #{createTime}
+        where   id = #{id} 
+    </update>
+</mapper>

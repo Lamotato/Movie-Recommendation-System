@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.platform.mapper.MovieTypeMapper">
+
+    <select id="queryPage" resultType="com.project.platform.entity.MovieType">
+        SELECT mt.*
+        FROM movie_type mt
+        <include refid="queryConditions"/>
+        ORDER BY mt.id DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="queryCount" resultType="int">
+        SELECT count(mt.id) FROM movie_type mt
+        <include refid="queryConditions"/>
+    </select>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" resultType="com.project.platform.entity.MovieType">
+        SELECT * FROM movie_type WHERE id = #{id}
+    </select>
+
+    <!-- 根据名称查询 -->
+    <select id="selectByName" resultType="com.project.platform.entity.MovieType">
+        SELECT * FROM movie_type WHERE name = #{name}
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="list" resultType="com.project.platform.entity.MovieType">
+        SELECT * FROM movie_type ORDER BY id DESC
+    </select>
+
+    <sql id="queryConditions">
+        <where>
+            <if test="query.name != null and query.name.trim() != ''">
+                AND mt.name LIKE CONCAT('%', #{query.name}, '%')
+            </if>
+            <if test="query.status != null and query.status.trim() != ''">
+                AND mt.status = #{query.status}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 插入 -->
+    <insert id="insert" parameterType="com.project.platform.entity.MovieType" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO movie_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="description != null">description,</if>
+            <if test="status != null">status,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="description != null">#{description},</if>
+            <if test="status != null">#{status},</if>
+        </trim>
+    </insert>
+
+    <!-- 更新 -->
+    <update id="updateById" parameterType="com.project.platform.entity.MovieType">
+        UPDATE movie_type
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据ID列表删除 -->
+    <delete id="removeByIds">
+        DELETE FROM movie_type
+        WHERE id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
+

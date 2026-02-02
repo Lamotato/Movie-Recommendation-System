@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.platform.mapper.OrderDetailMapper">
+
+    <!-- 根据订单ID查询明细列表 -->
+    <select id="listByOrderId" resultType="com.project.platform.entity.OrderDetail">
+        SELECT * FROM order_detail WHERE order_id = #{orderId}
+    </select>
+
+    <!-- 根据ID查询 -->
+    <select id="selectByPrimaryKey" resultType="com.project.platform.entity.OrderDetail">
+        SELECT * FROM order_detail WHERE id = #{id}
+    </select>
+
+    <!-- 插入 -->
+    <insert id="insert" parameterType="com.project.platform.entity.OrderDetail" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO order_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">order_id,</if>
+            <if test="seatId != null">seat_id,</if>
+            <if test="price != null">price,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">#{orderId},</if>
+            <if test="seatId != null">#{seatId},</if>
+            <if test="price != null">#{price},</if>
+        </trim>
+    </insert>
+
+    <!-- 批量插入 -->
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT INTO order_detail (order_id, seat_id, price)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.orderId}, #{item.seatId}, #{item.price})
+        </foreach>
+    </insert>
+
+    <!-- 根据订单ID删除 -->
+    <delete id="deleteByOrderId">
+        DELETE FROM order_detail WHERE order_id = #{orderId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.platform.mapper.SeatMapper">
+
+    <resultMap id="BaseResultMap" type="com.project.platform.entity.Seat">
+            <id property="id" column="id" />
+            <result property="roomId" column="room_id" />
+            <result property="rowNum" column="row_num" />
+            <result property="colNum" column="col_num" />
+            <result property="seatType" column="seat_type" />
+            <result property="status" column="status" />
+            <result property="createTime" column="create_time" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,room_id,row_num,col_num,seat_type,status,
+        create_time
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from seat
+        where  id = #{id} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from seat
+        where  id = #{id} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.project.platform.entity.Seat" useGeneratedKeys="true">
+        insert into seat
+        ( id,room_id,row_num,col_num,seat_type,status,
+        create_time)
+        values (#{id},#{roomId},#{rowNum},#{colNum},#{seatType},#{status},
+        #{createTime})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.project.platform.entity.Seat" useGeneratedKeys="true">
+        insert into seat
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="roomId != null">room_id,</if>
+                <if test="rowNum != null">row_num,</if>
+                <if test="colNum != null">col_num,</if>
+                <if test="seatType != null">seat_type,</if>
+                <if test="status != null">status,</if>
+                <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id},</if>
+                <if test="roomId != null">#{roomId},</if>
+                <if test="rowNum != null">#{rowNum},</if>
+                <if test="colNum != null">#{colNum},</if>
+                <if test="seatType != null">#{seatType},</if>
+                <if test="status != null">#{status},</if>
+                <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.project.platform.entity.Seat">
+        update seat
+        <set>
+                <if test="roomId != null">
+                    room_id = #{roomId},
+                </if>
+                <if test="rowNum != null">
+                    row_num = #{rowNum},
+                </if>
+                <if test="colNum != null">
+                    col_num = #{colNum},
+                </if>
+                <if test="seatType != null">
+                    seat_type = #{seatType},
+                </if>
+                <if test="status != null">
+                    status = #{status},
+                </if>
+                <if test="createTime != null">
+                    create_time = #{createTime},
+                </if>
+        </set>
+        where   id = #{id} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.project.platform.entity.Seat">
+        update seat
+        set 
+            room_id =  #{roomId},
+            row_num =  #{rowNum},
+            col_num =  #{colNum},
+            seat_type =  #{seatType},
+            status =  #{status},
+            create_time =  #{createTime}
+        where   id = #{id} 
+    </update>
+</mapper>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.platform.mapper.OrderMapper">
+
+    <resultMap id="BaseResultMap" type="com.project.platform.entity.Order">
+            <id property="id" column="id" />
+            <result property="orderNo" column="order_no" />
+            <result property="userId" column="user_id" />
+            <result property="screeningId" column="screening_id" />
+            <result property="totalAmount" column="total_amount" />
+            <result property="seatCount" column="seat_count" />
+            <result property="status" column="status" />
+            <result property="payTime" column="pay_time" />
+            <result property="ticketTime" column="ticket_time" />
+            <result property="createTime" column="create_time" />
+            <result property="updateTime" column="update_time" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,order_no,user_id,screening_id,total_amount,seat_count,
+        status,pay_time,ticket_time,create_time,update_time
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from order
+        where  id = #{id} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from order
+        where  id = #{id} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.project.platform.entity.Order" useGeneratedKeys="true">
+        insert into order
+        ( id,order_no,user_id,screening_id,total_amount,seat_count,
+        status,pay_time,ticket_time,create_time,update_time)
+        values (#{id},#{orderNo},#{userId},#{screeningId},#{totalAmount},#{seatCount},
+        #{status},#{payTime},#{ticketTime},#{createTime},#{updateTime})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.project.platform.entity.Order" useGeneratedKeys="true">
+        insert into order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="orderNo != null">order_no,</if>
+                <if test="userId != null">user_id,</if>
+                <if test="screeningId != null">screening_id,</if>
+                <if test="totalAmount != null">total_amount,</if>
+                <if test="seatCount != null">seat_count,</if>
+                <if test="status != null">status,</if>
+                <if test="payTime != null">pay_time,</if>
+                <if test="ticketTime != null">ticket_time,</if>
+                <if test="createTime != null">create_time,</if>
+                <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id},</if>
+                <if test="orderNo != null">#{orderNo},</if>
+                <if test="userId != null">#{userId},</if>
+                <if test="screeningId != null">#{screeningId},</if>
+                <if test="totalAmount != null">#{totalAmount},</if>
+                <if test="seatCount != null">#{seatCount},</if>
+                <if test="status != null">#{status},</if>
+                <if test="payTime != null">#{payTime},</if>
+                <if test="ticketTime != null">#{ticketTime},</if>
+                <if test="createTime != null">#{createTime},</if>
+                <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.project.platform.entity.Order">
+        update order
+        <set>
+                <if test="orderNo != null">
+                    order_no = #{orderNo},
+                </if>
+                <if test="userId != null">
+                    user_id = #{userId},
+                </if>
+                <if test="screeningId != null">
+                    screening_id = #{screeningId},
+                </if>
+                <if test="totalAmount != null">
+                    total_amount = #{totalAmount},
+                </if>
+                <if test="seatCount != null">
+                    seat_count = #{seatCount},
+                </if>
+                <if test="status != null">
+                    status = #{status},
+                </if>
+                <if test="payTime != null">
+                    pay_time = #{payTime},
+                </if>
+                <if test="ticketTime != null">
+                    ticket_time = #{ticketTime},
+                </if>
+                <if test="createTime != null">
+                    create_time = #{createTime},
+                </if>
+                <if test="updateTime != null">
+                    update_time = #{updateTime},
+                </if>
+        </set>
+        where   id = #{id} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.project.platform.entity.Order">
+        update order
+        set 
+            order_no =  #{orderNo},
+            user_id =  #{userId},
+            screening_id =  #{screeningId},
+            total_amount =  #{totalAmount},
+            seat_count =  #{seatCount},
+            status =  #{status},
+            pay_time =  #{payTime},
+            ticket_time =  #{ticketTime},
+            create_time =  #{createTime},
+            update_time =  #{updateTime}
+        where   id = #{id} 
+    </update>
+</mapper>

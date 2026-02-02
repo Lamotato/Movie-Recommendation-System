@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.platform.mapper.RecommendationEvaluationMapper">
+
+    <resultMap id="BaseResultMap" type="com.project.platform.entity.RecommendationEvaluation">
+            <id property="id" column="id" />
+            <result property="evaluationDate" column="evaluation_date" />
+            <result property="recommendationType" column="recommendation_type" />
+            <result property="precisionAtN" column="precision_at_n" />
+            <result property="recallAtN" column="recall_at_n" />
+            <result property="diversity" column="diversity" />
+            <result property="userSatisfaction" column="user_satisfaction" />
+            <result property="clickThroughRate" column="click_through_rate" />
+            <result property="createTime" column="create_time" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,evaluation_date,recommendation_type,precision_at_n,recall_at_n,diversity,
+        user_satisfaction,click_through_rate,create_time
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from recommendation_evaluation
+        where  id = #{id} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from recommendation_evaluation
+        where  id = #{id} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.project.platform.entity.RecommendationEvaluation" useGeneratedKeys="true">
+        insert into recommendation_evaluation
+        ( id,evaluation_date,recommendation_type,precision_at_n,recall_at_n,diversity,
+        user_satisfaction,click_through_rate,create_time)
+        values (#{id},#{evaluationDate},#{recommendationType},#{precisionAtN},#{recallAtN},#{diversity},
+        #{userSatisfaction},#{clickThroughRate},#{createTime})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.project.platform.entity.RecommendationEvaluation" useGeneratedKeys="true">
+        insert into recommendation_evaluation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="evaluationDate != null">evaluation_date,</if>
+                <if test="recommendationType != null">recommendation_type,</if>
+                <if test="precisionAtN != null">precision_at_n,</if>
+                <if test="recallAtN != null">recall_at_n,</if>
+                <if test="diversity != null">diversity,</if>
+                <if test="userSatisfaction != null">user_satisfaction,</if>
+                <if test="clickThroughRate != null">click_through_rate,</if>
+                <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id},</if>
+                <if test="evaluationDate != null">#{evaluationDate},</if>
+                <if test="recommendationType != null">#{recommendationType},</if>
+                <if test="precisionAtN != null">#{precisionAtN},</if>
+                <if test="recallAtN != null">#{recallAtN},</if>
+                <if test="diversity != null">#{diversity},</if>
+                <if test="userSatisfaction != null">#{userSatisfaction},</if>
+                <if test="clickThroughRate != null">#{clickThroughRate},</if>
+                <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.project.platform.entity.RecommendationEvaluation">
+        update recommendation_evaluation
+        <set>
+                <if test="evaluationDate != null">
+                    evaluation_date = #{evaluationDate},
+                </if>
+                <if test="recommendationType != null">
+                    recommendation_type = #{recommendationType},
+                </if>
+                <if test="precisionAtN != null">
+                    precision_at_n = #{precisionAtN},
+                </if>
+                <if test="recallAtN != null">
+                    recall_at_n = #{recallAtN},
+                </if>
+                <if test="diversity != null">
+                    diversity = #{diversity},
+                </if>
+                <if test="userSatisfaction != null">
+                    user_satisfaction = #{userSatisfaction},
+                </if>
+                <if test="clickThroughRate != null">
+                    click_through_rate = #{clickThroughRate},
+                </if>
+                <if test="createTime != null">
+                    create_time = #{createTime},
+                </if>
+        </set>
+        where   id = #{id} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.project.platform.entity.RecommendationEvaluation">
+        update recommendation_evaluation
+        set 
+            evaluation_date =  #{evaluationDate},
+            recommendation_type =  #{recommendationType},
+            precision_at_n =  #{precisionAtN},
+            recall_at_n =  #{recallAtN},
+            diversity =  #{diversity},
+            user_satisfaction =  #{userSatisfaction},
+            click_through_rate =  #{clickThroughRate},
+            create_time =  #{createTime}
+        where   id = #{id} 
+    </update>
+
+    <select id="selectByDateRange" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from recommendation_evaluation
+        where evaluation_date between #{startDate} and #{endDate}
+        <if test="recommendationType != null and recommendationType != ''">
+            and recommendation_type = #{recommendationType}
+        </if>
+        order by evaluation_date desc, create_time desc
+    </select>
+
+    <select id="selectByTypeAndDate" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from recommendation_evaluation
+        where recommendation_type = #{recommendationType}
+        and evaluation_date = #{evaluationDate}
+        limit 1
+    </select>
+</mapper>

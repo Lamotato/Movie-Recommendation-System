@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.platform.mapper.MovieRatingMapper">
+
+    <resultMap id="BaseResultMap" type="com.project.platform.entity.MovieRating">
+            <id property="id" column="id" />
+            <result property="userId" column="user_id" />
+            <result property="movieId" column="movie_id" />
+            <result property="rating" column="rating" />
+            <result property="comment" column="comment" />
+            <result property="createTime" column="create_time" />
+            <result property="updateTime" column="update_time" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,user_id,movie_id,rating,comment,create_time,
+        update_time
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from movie_rating
+        where  id = #{id} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from movie_rating
+        where  id = #{id} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.project.platform.entity.MovieRating" useGeneratedKeys="true">
+        insert into movie_rating
+        ( id,user_id,movie_id,rating,comment,create_time,
+        update_time)
+        values (#{id},#{userId},#{movieId},#{rating},#{comment},#{createTime},
+        #{updateTime})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.project.platform.entity.MovieRating" useGeneratedKeys="true">
+        insert into movie_rating
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="userId != null">user_id,</if>
+                <if test="movieId != null">movie_id,</if>
+                <if test="rating != null">rating,</if>
+                <if test="comment != null">comment,</if>
+                <if test="createTime != null">create_time,</if>
+                <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id},</if>
+                <if test="userId != null">#{userId},</if>
+                <if test="movieId != null">#{movieId},</if>
+                <if test="rating != null">#{rating},</if>
+                <if test="comment != null">#{comment},</if>
+                <if test="createTime != null">#{createTime},</if>
+                <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.project.platform.entity.MovieRating">
+        update movie_rating
+        <set>
+                <if test="userId != null">
+                    user_id = #{userId},
+                </if>
+                <if test="movieId != null">
+                    movie_id = #{movieId},
+                </if>
+                <if test="rating != null">
+                    rating = #{rating},
+                </if>
+                <if test="comment != null">
+                    comment = #{comment},
+                </if>
+                <if test="createTime != null">
+                    create_time = #{createTime},
+                </if>
+                <if test="updateTime != null">
+                    update_time = #{updateTime},
+                </if>
+        </set>
+        where   id = #{id} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.project.platform.entity.MovieRating">
+        update movie_rating
+        set 
+            user_id =  #{userId},
+            movie_id =  #{movieId},
+            rating =  #{rating},
+            comment =  #{comment},
+            create_time =  #{createTime},
+            update_time =  #{updateTime}
+        where   id = #{id} 
+    </update>
+
+    <!-- 根据用户ID查询评分列表 -->
+    <select id="selectByUserId" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM movie_rating
+        WHERE user_id = #{userId}
+        ORDER BY create_time DESC
+    </select>
+
+    <!-- 根据用户ID和电影ID查询评分 -->
+    <select id="selectByUserIdAndMovieId" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM movie_rating
+        WHERE user_id = #{userId} AND movie_id = #{movieId}
+        LIMIT 1
+    </select>
+
+    <!-- 查询所有用户的评分（用于协同过滤） -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM movie_rating
+        ORDER BY user_id, create_time DESC
+    </select>
+</mapper>

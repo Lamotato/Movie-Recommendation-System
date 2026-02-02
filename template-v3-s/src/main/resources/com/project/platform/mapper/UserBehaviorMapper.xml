@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.platform.mapper.UserBehaviorMapper">
+
+    <resultMap id="BaseResultMap" type="com.project.platform.entity.UserBehavior">
+            <id property="id" column="id" />
+            <result property="userId" column="user_id" />
+            <result property="behaviorType" column="behavior_type" />
+            <result property="movieId" column="movie_id" />
+            <result property="searchKeyword" column="search_keyword" />
+            <result property="rating" column="rating" />
+            <result property="duration" column="duration" />
+            <result property="deviceType" column="device_type" />
+            <result property="ipAddress" column="ip_address" />
+            <result property="createTime" column="create_time" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,user_id,behavior_type,movie_id,search_keyword,rating,
+        duration,device_type,ip_address,create_time
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from user_behavior
+        where  id = #{id} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from user_behavior
+        where  id = #{id} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.project.platform.entity.UserBehavior" useGeneratedKeys="true">
+        insert into user_behavior
+        ( id,user_id,behavior_type,movie_id,search_keyword,rating,
+        duration,device_type,ip_address,create_time)
+        values (#{id},#{userId},#{behaviorType},#{movieId},#{searchKeyword},#{rating},
+        #{duration},#{deviceType},#{ipAddress},#{createTime})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.project.platform.entity.UserBehavior" useGeneratedKeys="true">
+        insert into user_behavior
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="userId != null">user_id,</if>
+                <if test="behaviorType != null">behavior_type,</if>
+                <if test="movieId != null">movie_id,</if>
+                <if test="searchKeyword != null">search_keyword,</if>
+                <if test="rating != null">rating,</if>
+                <if test="duration != null">duration,</if>
+                <if test="deviceType != null">device_type,</if>
+                <if test="ipAddress != null">ip_address,</if>
+                <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id},</if>
+                <if test="userId != null">#{userId},</if>
+                <if test="behaviorType != null">#{behaviorType},</if>
+                <if test="movieId != null">#{movieId},</if>
+                <if test="searchKeyword != null">#{searchKeyword},</if>
+                <if test="rating != null">#{rating},</if>
+                <if test="duration != null">#{duration},</if>
+                <if test="deviceType != null">#{deviceType},</if>
+                <if test="ipAddress != null">#{ipAddress},</if>
+                <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.project.platform.entity.UserBehavior">
+        update user_behavior
+        <set>
+                <if test="userId != null">
+                    user_id = #{userId},
+                </if>
+                <if test="behaviorType != null">
+                    behavior_type = #{behaviorType},
+                </if>
+                <if test="movieId != null">
+                    movie_id = #{movieId},
+                </if>
+                <if test="searchKeyword != null">
+                    search_keyword = #{searchKeyword},
+                </if>
+                <if test="rating != null">
+                    rating = #{rating},
+                </if>
+                <if test="duration != null">
+                    duration = #{duration},
+                </if>
+                <if test="deviceType != null">
+                    device_type = #{deviceType},
+                </if>
+                <if test="ipAddress != null">
+                    ip_address = #{ipAddress},
+                </if>
+                <if test="createTime != null">
+                    create_time = #{createTime},
+                </if>
+        </set>
+        where   id = #{id} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.project.platform.entity.UserBehavior">
+        update user_behavior
+        set 
+            user_id =  #{userId},
+            behavior_type =  #{behaviorType},
+            movie_id =  #{movieId},
+            search_keyword =  #{searchKeyword},
+            rating =  #{rating},
+            duration =  #{duration},
+            device_type =  #{deviceType},
+            ip_address =  #{ipAddress},
+            create_time =  #{createTime}
+        where   id = #{id} 
+    </update>
+
+    <!-- 根据用户ID和行为类型查询行为列表 -->
+    <resultMap id="UserBehaviorVOResultMap" type="com.project.platform.vo.UserBehaviorVO">
+        <id property="id" column="id" />
+        <result property="userId" column="user_id" />
+        <result property="behaviorType" column="behavior_type" />
+        <result property="movieId" column="movie_id" />
+        <result property="movieName" column="movie_name" />
+        <result property="searchKeyword" column="search_keyword" />
+        <result property="rating" column="rating" />
+        <result property="duration" column="duration" />
+        <result property="deviceType" column="device_type" />
+        <result property="ipAddress" column="ip_address" />
+        <result property="createTime" column="create_time" />
+    </resultMap>
+
+    <select id="selectByUserId" resultMap="UserBehaviorVOResultMap">
+        SELECT 
+            ub.id,
+            ub.user_id,
+            ub.behavior_type,
+            ub.movie_id,
+            m.name AS movie_name,
+            ub.search_keyword,
+            ub.rating,
+            ub.duration,
+            ub.device_type,
+            ub.ip_address,
+            ub.create_time
+        FROM user_behavior ub
+        LEFT JOIN movie m ON ub.movie_id = m.id
+        WHERE ub.user_id = #{userId}
+        <if test="behaviorType != null and behaviorType != ''">
+            AND ub.behavior_type = #{behaviorType}
+        </if>
+        ORDER BY ub.create_time DESC
+        <if test="limit != null and limit > 0">
+            LIMIT #{limit}
+        </if>
+    </select>
+
+    <!-- 统计用户行为总数 -->
+    <select id="countByUserId" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM user_behavior
+        WHERE user_id = #{userId}
+    </select>
+
+    <!-- 按行为类型统计用户行为数量 -->
+    <select id="countByBehaviorType" resultType="java.util.HashMap">
+        SELECT 
+            behavior_type AS behaviorType,
+            COUNT(*) AS count
+        FROM user_behavior
+        WHERE user_id = #{userId}
+        GROUP BY behavior_type
+    </select>
+
+    <!-- 获取用户最近行为时间 -->
+    <select id="getLastBehaviorTime" resultType="java.time.LocalDateTime">
+        SELECT MAX(create_time) 
+        FROM user_behavior
+        WHERE user_id = #{userId}
+    </select>
+
+    <!-- 统计特定类型的行为数量 -->
+    <select id="countByUserIdAndType" resultType="java.lang.Long">
+        SELECT COUNT(*) 
+        FROM user_behavior
+        WHERE user_id = #{userId}
+        AND behavior_type = #{behaviorType}
+    </select>
+</mapper>

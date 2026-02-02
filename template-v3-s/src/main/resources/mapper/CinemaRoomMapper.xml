@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.platform.mapper.CinemaRoomMapper">
+
+    <!-- 根据影院ID查询房间列表 -->
+    <select id="listByCinemaId" resultType="com.project.platform.entity.CinemaRoom">
+        SELECT * FROM cinema_room WHERE cinema_id = #{cinemaId} ORDER BY id
+    </select>
+
+    <!-- 根据ID查询 -->
+    <select id="selectByPrimaryKey" resultType="com.project.platform.entity.CinemaRoom">
+        SELECT * FROM cinema_room WHERE id = #{id}
+    </select>
+
+    <!-- 插入 -->
+    <insert id="insert" parameterType="com.project.platform.entity.CinemaRoom" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO cinema_room
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cinemaId != null">cinema_id,</if>
+            <if test="name != null">name,</if>
+            <if test="rowCount != null">row_count,</if>
+            <if test="colCount != null">col_count,</if>
+            <if test="description != null">description,</if>
+            <if test="status != null">status,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cinemaId != null">#{cinemaId},</if>
+            <if test="name != null">#{name},</if>
+            <if test="rowCount != null">#{rowCount},</if>
+            <if test="colCount != null">#{colCount},</if>
+            <if test="description != null">#{description},</if>
+            <if test="status != null">#{status},</if>
+        </trim>
+    </insert>
+
+    <!-- 更新 -->
+    <update id="updateById" parameterType="com.project.platform.entity.CinemaRoom">
+        UPDATE cinema_room
+        <set>
+            <if test="cinemaId != null">cinema_id = #{cinemaId},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="rowCount != null">row_count = #{rowCount},</if>
+            <if test="colCount != null">col_count = #{colCount},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id="removeById">
+        DELETE FROM cinema_room WHERE id = #{id}
+    </delete>
+
+</mapper>

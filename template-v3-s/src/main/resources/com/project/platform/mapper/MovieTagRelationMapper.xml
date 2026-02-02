@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.platform.mapper.MovieTagRelationMapper">
+
+    <resultMap id="BaseResultMap" type="com.project.platform.entity.MovieTagRelation">
+            <id property="id" column="id" />
+            <result property="movieId" column="movie_id" />
+            <result property="tagId" column="tag_id" />
+            <result property="createTime" column="create_time" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,movie_id,tag_id,create_time
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from movie_tag_relation
+        where  id = #{id} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from movie_tag_relation
+        where  id = #{id} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.project.platform.entity.MovieTagRelation" useGeneratedKeys="true">
+        insert into movie_tag_relation
+        ( id,movie_id,tag_id,create_time)
+        values (#{id},#{movieId},#{tagId},#{createTime})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.project.platform.entity.MovieTagRelation" useGeneratedKeys="true">
+        insert into movie_tag_relation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="movieId != null">movie_id,</if>
+                <if test="tagId != null">tag_id,</if>
+                <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id},</if>
+                <if test="movieId != null">#{movieId},</if>
+                <if test="tagId != null">#{tagId},</if>
+                <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.project.platform.entity.MovieTagRelation">
+        update movie_tag_relation
+        <set>
+                <if test="movieId != null">
+                    movie_id = #{movieId},
+                </if>
+                <if test="tagId != null">
+                    tag_id = #{tagId},
+                </if>
+                <if test="createTime != null">
+                    create_time = #{createTime},
+                </if>
+        </set>
+        where   id = #{id} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.project.platform.entity.MovieTagRelation">
+        update movie_tag_relation
+        set 
+            movie_id =  #{movieId},
+            tag_id =  #{tagId},
+            create_time =  #{createTime}
+        where   id = #{id} 
+    </update>
+
+    <!-- 根据标签ID查询电影ID列表 -->
+    <select id="listMovieIdsByTagId" resultType="java.lang.Integer">
+        SELECT DISTINCT movie_id
+        FROM movie_tag_relation
+        WHERE tag_id = #{tagId}
+    </select>
+
+    <!-- 根据标签名称查询电影ID列表 -->
+    <select id="listMovieIdsByTagName" resultType="java.lang.Integer">
+        SELECT DISTINCT mtr.movie_id
+        FROM movie_tag_relation mtr
+        INNER JOIN movie_tag mt ON mtr.tag_id = mt.id
+        WHERE mt.name = #{tagName}
+        <if test="limit != null and limit > 0">
+            LIMIT #{limit}
+        </if>
+    </select>
+</mapper>

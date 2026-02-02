@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.platform.mapper.RecommendationResultMapper">
+
+    <resultMap id="BaseResultMap" type="com.project.platform.entity.RecommendationResult">
+            <id property="id" column="id" />
+            <result property="userId" column="user_id" />
+            <result property="recommendationType" column="recommendation_type" />
+            <result property="movieIds" column="movie_ids" />
+            <result property="scores" column="scores" />
+            <result property="strategy" column="strategy" />
+            <result property="expireTime" column="expire_time" />
+            <result property="createTime" column="create_time" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,user_id,recommendation_type,movie_ids,scores,strategy,
+        expire_time,create_time
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from recommendation_result
+        where  id = #{id} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from recommendation_result
+        where  id = #{id} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.project.platform.entity.RecommendationResult" useGeneratedKeys="true">
+        insert into recommendation_result
+        ( id,user_id,recommendation_type,movie_ids,scores,strategy,
+        expire_time,create_time)
+        values (#{id},#{userId},#{recommendationType},#{movieIds},#{scores},#{strategy},
+        #{expireTime},#{createTime})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.project.platform.entity.RecommendationResult" useGeneratedKeys="true">
+        insert into recommendation_result
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="userId != null">user_id,</if>
+                <if test="recommendationType != null">recommendation_type,</if>
+                <if test="movieIds != null">movie_ids,</if>
+                <if test="scores != null">scores,</if>
+                <if test="strategy != null">strategy,</if>
+                <if test="expireTime != null">expire_time,</if>
+                <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id},</if>
+                <if test="userId != null">#{userId},</if>
+                <if test="recommendationType != null">#{recommendationType},</if>
+                <if test="movieIds != null">#{movieIds},</if>
+                <if test="scores != null">#{scores},</if>
+                <if test="strategy != null">#{strategy},</if>
+                <if test="expireTime != null">#{expireTime},</if>
+                <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.project.platform.entity.RecommendationResult">
+        update recommendation_result
+        <set>
+                <if test="userId != null">
+                    user_id = #{userId},
+                </if>
+                <if test="recommendationType != null">
+                    recommendation_type = #{recommendationType},
+                </if>
+                <if test="movieIds != null">
+                    movie_ids = #{movieIds},
+                </if>
+                <if test="scores != null">
+                    scores = #{scores},
+                </if>
+                <if test="strategy != null">
+                    strategy = #{strategy},
+                </if>
+                <if test="expireTime != null">
+                    expire_time = #{expireTime},
+                </if>
+                <if test="createTime != null">
+                    create_time = #{createTime},
+                </if>
+        </set>
+        where   id = #{id} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.project.platform.entity.RecommendationResult">
+        update recommendation_result
+        set 
+            user_id =  #{userId},
+            recommendation_type =  #{recommendationType},
+            movie_ids =  #{movieIds},
+            scores =  #{scores},
+            strategy =  #{strategy},
+            expire_time =  #{expireTime},
+            create_time =  #{createTime}
+        where   id = #{id} 
+    </update>
+
+    <!-- 根据用户ID和推荐类型查询推荐结果 -->
+    <select id="selectByUserIdAndType" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM recommendation_result
+        WHERE user_id = #{userId} 
+        AND recommendation_type = #{recommendationType}
+        AND (expire_time IS NULL OR expire_time > NOW())
+        ORDER BY create_time DESC
+        LIMIT 1
+    </select>
+
+    <!-- 删除过期的推荐结果 -->
+    <delete id="deleteExpiredResults">
+        DELETE FROM recommendation_result
+        WHERE expire_time IS NOT NULL AND expire_time &lt; NOW()
+    </delete>
+
+    <!-- 根据推荐类型查询推荐结果列表 -->
+    <select id="selectByType" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM recommendation_result
+        WHERE recommendation_type = #{recommendationType}
+        AND (expire_time IS NULL OR expire_time > NOW())
+        ORDER BY create_time DESC
+    </select>
+
+    <!-- 查询所有推荐结果 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM recommendation_result
+        WHERE expire_time IS NULL OR expire_time > NOW()
+        ORDER BY create_time DESC
+    </select>
+</mapper>
