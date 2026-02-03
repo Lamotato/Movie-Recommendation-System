@@ -22,5 +22,29 @@
     <delete id="deleteByMovieId">
         DELETE FROM movie_type_relation WHERE movie_id = #{movieId}
     </delete>
+
+    <!-- 根据类型ID查询电影ID列表 -->
+    <select id="listMovieIdsByTypeId" resultType="java.lang.Integer">
+        SELECT DISTINCT movie_id
+        FROM movie_type_relation
+        WHERE type_id = #{typeId}
+    </select>
+
+    <!-- 根据类型ID列表查询有共同类型的相似电影ID列表 -->
+    <select id="listSimilarMovieIdsByTypeIds" resultType="java.lang.Integer">
+        SELECT DISTINCT mtr.movie_id
+        FROM movie_type_relation mtr
+        WHERE mtr.movie_id != #{excludeMovieId}
+        AND mtr.type_id IN
+        <foreach collection="typeIds" item="typeId" open="(" separator="," close=")">
+            #{typeId}
+        </foreach>
+        GROUP BY mtr.movie_id
+        HAVING COUNT(DISTINCT mtr.type_id) >= 1
+        ORDER BY COUNT(DISTINCT mtr.type_id) DESC
+        <if test="limit != null and limit > 0">
+            LIMIT #{limit}
+        </if>
+    </select>
 </mapper>
 

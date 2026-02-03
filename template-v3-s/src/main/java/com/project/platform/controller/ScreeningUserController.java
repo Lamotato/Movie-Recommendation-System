@@ -1,14 +1,18 @@
 package com.project.platform.controller;
 
-import com.project.platform.entity.Seat;
 import com.project.platform.entity.Screening;
+import com.project.platform.entity.Seat;
+import com.project.platform.exception.NotFoundException;
 import com.project.platform.mapper.OrderDetailMapper;
 import com.project.platform.mapper.OrderMapper;
 import com.project.platform.mapper.ScreeningMapper;
 import com.project.platform.mapper.SeatMapper;
 import com.project.platform.vo.ResponseVO;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +43,7 @@ public class ScreeningUserController {
         // 查询场次信息
         Screening screening = screeningMapper.selectByPrimaryKey(id);
         if (screening == null) {
-            return ResponseVO.fail(404, "场次不存在");
+            throw new NotFoundException("场次不存在");
         }
 
         // 查询该场次的所有座位

@@ -2,6 +2,7 @@ package com.project.platform.controller;
 
 import com.project.platform.dto.MovieDTO;
 import com.project.platform.entity.Movie;
+import com.project.platform.exception.NotFoundException;
 import com.project.platform.mapper.MovieTagRelationMapper;
 import com.project.platform.mapper.MovieTypeRelationMapper;
 import com.project.platform.service.MovieService;
@@ -42,6 +43,9 @@ public class MovieController {
     @GetMapping("selectById/{id}")
     public ResponseVO<Map<String, Object>> selectById(@PathVariable("id") Integer id) {
         Movie movie = movieService.selectById(id);
+        if (movie == null) {
+            throw new NotFoundException("电影不存在");
+        }
         Map<String, Object> result = new HashMap<>();
         result.put("movie", movie);
         result.put("typeIds", movieTypeRelationMapper.listTypeIdsByMovieId(id));

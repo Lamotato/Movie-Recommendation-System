@@ -1,6 +1,7 @@
 package com.project.platform.controller;
 
 import com.project.platform.entity.User;
+import com.project.platform.exception.NotFoundException;
 import com.project.platform.service.UserService;
 import com.project.platform.vo.PageVO;
 import com.project.platform.vo.ResponseVO;
@@ -36,6 +37,9 @@ public class UserController {
     @GetMapping("selectById/{id}")
     public ResponseVO<User> selectById(@PathVariable("id") Integer id) {
         User entity = userService.selectById(id);
+        if (entity == null) {
+            throw new NotFoundException("用户不存在");
+        }
         return ResponseVO.ok(entity);
     }
 

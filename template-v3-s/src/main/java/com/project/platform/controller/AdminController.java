@@ -1,6 +1,7 @@
 package com.project.platform.controller;
 
 import com.project.platform.entity.Admin;
+import com.project.platform.exception.NotFoundException;
 import com.project.platform.service.AdminService;
 import com.project.platform.vo.PageVO;
 import com.project.platform.vo.ResponseVO;
@@ -43,6 +44,9 @@ public class AdminController {
     @GetMapping("selectById/{id}")
     public ResponseVO<Admin> selectById(@PathVariable("id") Integer id) {
         Admin entity = adminService.selectById(id);
+        if (entity == null) {
+            throw new NotFoundException("管理员不存在");
+        }
         return ResponseVO.ok(entity);
     }
 

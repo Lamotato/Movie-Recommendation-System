@@ -4,6 +4,7 @@ import com.project.platform.dto.CinemaDTO;
 import com.project.platform.dto.CinemaRoomDTO;
 import com.project.platform.entity.Cinema;
 import com.project.platform.entity.CinemaRoom;
+import com.project.platform.exception.NotFoundException;
 import com.project.platform.service.CinemaService;
 import com.project.platform.vo.PageVO;
 import com.project.platform.vo.ResponseVO;
@@ -40,6 +41,9 @@ public class CinemaController {
     @GetMapping("{id}")
     public ResponseVO<Cinema> selectById(@PathVariable("id") Integer id) {
         Cinema cinema = cinemaService.selectById(id);
+        if (cinema == null) {
+            throw new NotFoundException("影院不存在");
+        }
         return ResponseVO.ok(cinema);
     }
 

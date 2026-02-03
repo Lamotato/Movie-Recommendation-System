@@ -32,13 +32,13 @@
 
     <sql id="queryConditions">
         <where>
-            <if test="query.name != null && query.name.trim() != ''">
+            <if test="query.name != null and query.name.trim() != ''">
                 AND mt.name LIKE CONCAT('%', #{query.name}, '%')
             </if>
-            <if test="query.category != null && query.category.trim() != ''">
+            <if test="query.category != null and query.category.trim() != ''">
                 AND mt.category = #{query.category}
             </if>
-            <if test="query.status != null && query.status.trim() != ''">
+            <if test="query.status != null and query.status.trim() != ''">
                 AND mt.status = #{query.status}
             </if>
         </where>

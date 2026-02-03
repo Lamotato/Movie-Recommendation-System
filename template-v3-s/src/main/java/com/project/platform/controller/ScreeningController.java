@@ -2,6 +2,7 @@ package com.project.platform.controller;
 
 import com.project.platform.dto.ScreeningDTO;
 import com.project.platform.entity.Screening;
+import com.project.platform.exception.NotFoundException;
 import com.project.platform.service.ScreeningService;
 import com.project.platform.vo.PageVO;
 import com.project.platform.vo.ResponseVO;
@@ -37,6 +38,9 @@ public class ScreeningController {
     @GetMapping("{id}")
     public ResponseVO<Screening> selectById(@PathVariable("id") Integer id) {
         Screening screening = screeningService.selectById(id);
+        if (screening == null) {
+            throw new NotFoundException("场次不存在");
+        }
         return ResponseVO.ok(screening);
     }
 

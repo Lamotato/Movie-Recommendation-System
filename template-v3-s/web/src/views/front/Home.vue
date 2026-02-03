@@ -55,7 +55,9 @@
     <!-- 热门电影 -->
     <div class="section">
       <h2 class="section-title">
-        <el-icon><Fire /></el-icon>
+        <el-icon>
+          <Orange/>
+        </el-icon>
         热门电影
       </h2>
       <div class="movie-grid">
@@ -122,10 +124,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
-import { Star, Fire, Film, VideoPlay } from '@element-plus/icons-vue'
+import {onMounted, ref} from 'vue'
+import {useRouter} from 'vue-router'
+import {Film, Orange, Star, VideoPlay} from '@element-plus/icons-vue'
 import http from '@/utils/http.js'
 import tools from '@/utils/tools.js'
 

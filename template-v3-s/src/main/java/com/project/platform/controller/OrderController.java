@@ -3,8 +3,9 @@ package com.project.platform.controller;
 import com.project.platform.dto.OrderCreateDTO;
 import com.project.platform.entity.Order;
 import com.project.platform.entity.OrderDetail;
+import com.project.platform.exception.NotFoundException;
+import com.project.platform.exception.UnauthorizedException;
 import com.project.platform.service.OrderService;
-import com.project.platform.vo.PageVO;
 import com.project.platform.vo.ResponseVO;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +41,7 @@ public class OrderController {
         // 从当前用户获取userId
         com.project.platform.dto.CurrentUserDTO currentUser = com.project.platform.utils.CurrentUserThreadLocal.getCurrentUser();
         if (currentUser == null) {
-            return ResponseVO.fail(401, "请先登录");
+            throw new UnauthorizedException("请先登录");
         }
         List<Order> orders = orderService.listByUserId(currentUser.getId());
         return ResponseVO.ok(orders);
@@ -53,7 +54,7 @@ public class OrderController {
     public ResponseVO<Map<String, Object>> getOrderDetail(@PathVariable("orderNo") String orderNo) {
         Order order = orderService.selectByOrderNo(orderNo);
         if (order == null) {
-            return ResponseVO.fail(404, "订单不存在");
+            throw new NotFoundException("订单不存在");
         }
         List<OrderDetail> details = orderService.listOrderDetails(order.getId());
         Map<String, Object> result = new HashMap<>();
