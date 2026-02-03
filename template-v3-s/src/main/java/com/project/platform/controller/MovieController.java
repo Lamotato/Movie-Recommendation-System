@@ -3,6 +3,7 @@ package com.project.platform.controller;
 import com.project.platform.dto.MovieDTO;
 import com.project.platform.entity.Movie;
 import com.project.platform.exception.NotFoundException;
+import com.project.platform.mapper.MovieCastMapper;
 import com.project.platform.mapper.MovieTagRelationMapper;
 import com.project.platform.mapper.MovieTypeRelationMapper;
 import com.project.platform.service.MovieService;
@@ -28,6 +29,8 @@ public class MovieController {
     private MovieTypeRelationMapper movieTypeRelationMapper;
     @Resource
     private MovieTagRelationMapper movieTagRelationMapper;
+    @Resource
+    private MovieCastMapper movieCastMapper;
 
     @GetMapping("page")
     public ResponseVO<PageVO<Movie>> page(@RequestParam Map<String, Object> query,
@@ -50,6 +53,7 @@ public class MovieController {
         result.put("movie", movie);
         result.put("typeIds", movieTypeRelationMapper.listTypeIdsByMovieId(id));
         result.put("tagIds", movieTagRelationMapper.listTagIdsByMovieId(id));
+        result.put("castList", movieCastMapper.listByMovieId(id));
         return ResponseVO.ok(result);
     }
 

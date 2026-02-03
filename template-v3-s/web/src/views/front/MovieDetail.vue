@@ -18,7 +18,13 @@
             </p>
             <p v-if="movie.rating">
               <span class="label">评分：</span>
-              <el-rate v-model="movie.rating" disabled show-score text-color="#ff9900" />
+              <div class="rating-stars">
+                <span v-for="i in 10" :key="i"
+                      :class="['star', i <= movie.rating ? 'active' : '']">
+                  ★
+                </span>
+                <span class="rating-score">{{ movie.rating }}分</span>
+              </div>
             </p>
           </div>
           <div class="action-buttons">
@@ -82,10 +88,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
-import { Star } from '@element-plus/icons-vue'
+import {onMounted, ref} from 'vue'
+import {useRoute, useRouter} from 'vue-router'
+import {ElMessage} from 'element-plus'
+import {Star} from '@element-plus/icons-vue'
 import http from '@/utils/http.js'
 import tools from '@/utils/tools.js'
 
@@ -335,5 +341,27 @@ function formatTime(timeStr) {
 
 .loading-container {
   padding: 40px;
+}
+
+.rating-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.rating-stars .star {
+  font-size: 20px;
+  color: #dcdfe6;
+  cursor: default;
+}
+
+.rating-stars .star.active {
+  color: #ff9900;
+}
+
+.rating-score {
+  margin-left: 10px;
+  font-size: 16px;
+  color: #606266;
 }
 </style>

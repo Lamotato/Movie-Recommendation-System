@@ -116,8 +116,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import {computed, onMounted, ref} from 'vue'
+import {ElMessage, ElMessageBox} from 'element-plus'
 import http from '@/utils/http.js'
 
 const loading = ref(false)
@@ -203,8 +203,16 @@ async function handleEdit(row) {
   try {
     const res = await http.get(`/admin/movie/selectById/${row.id}`)
     if (res && res.data) {
+      // 从演职人员列表中提取主演信息
+      const castList = res.data.castList || []
+      const actors = castList
+          .filter(cast => cast.role === 'actor')
+          .map(cast => cast.name)
+          .join(', ')
+
       formData.value = {
         ...res.data.movie,
+        cast: actors,
         typeIds: res.data.typeIds || [],
         tagIds: res.data.tagIds || []
       }

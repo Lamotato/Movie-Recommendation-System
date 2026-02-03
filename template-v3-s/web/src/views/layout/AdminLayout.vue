@@ -40,6 +40,24 @@
           </el-icon>
           <span>管理员管理</span>
         </el-menu-item>
+        <el-menu-item index="/admin/cinema" v-if="isSuperAdmin">
+          <el-icon>
+            <OfficeBuilding/>
+          </el-icon>
+          <span>影院管理</span>
+        </el-menu-item>
+        <el-menu-item index="/admin/room" v-if="isSuperAdmin">
+          <el-icon>
+            <Grid/>
+          </el-icon>
+          <span>房间管理</span>
+        </el-menu-item>
+        <el-menu-item index="/admin/screening" v-if="isSuperAdmin">
+          <el-icon>
+            <VideoPlay/>
+          </el-icon>
+          <span>放映场次管理</span>
+        </el-menu-item>
       </el-menu>
     </el-aside>
     <el-container>
@@ -90,17 +108,22 @@
 
 <script setup>
 import tools from "@/utils/tools.js";
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import router from "@/router/index.js";
 import {ElMessage} from "element-plus";
 import {useRoute} from 'vue-router';
 import {HomeOutlined} from "@ant-design/icons-vue";
-import {User, Film, Document, UserFilled} from '@element-plus/icons-vue'
+import {Document, Film, Grid, OfficeBuilding, User, UserFilled} from '@element-plus/icons-vue'
 import "@/styles/admin.css";
 
 const isUserLogin = ref(tools.isLogin())
 const currentUser = ref(tools.getCurrentUser())
 const activeIndex = ref(useRoute().path)
+
+// 判断当前用户是否为super_admin
+const isSuperAdmin = computed(() => {
+  return currentUser.value && currentUser.value.role === 'super_admin'
+})
 
 if (currentUser.value === null) {
   window.location.href = "/login"

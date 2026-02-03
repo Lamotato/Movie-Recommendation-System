@@ -57,7 +57,7 @@ public class ScreeningServiceImpl implements ScreeningService {
         Screening screening = new Screening();
         BeanUtils.copyProperties(dto, screening);
         screening.setUpdateTime(LocalDateTime.now());
-        screeningMapper.updateById(screening);
+        screeningMapper.updateByPrimaryKey(screening);
     }
 
     @Override

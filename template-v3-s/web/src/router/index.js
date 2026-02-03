@@ -93,6 +93,24 @@ function getRoutes() {
                     name: 'admin-user',
                     component: () =>
                         import ('../views/admin/UserManage.vue')
+                },
+                {
+                    path: 'cinema',
+                    name: 'admin-cinema',
+                    component: () =>
+                        import ('../views/admin/CinemaManage.vue')
+                },
+                {
+                    path: 'room',
+                    name: 'admin-room',
+                    component: () =>
+                        import ('../views/admin/RoomManage.vue')
+                },
+                {
+                    path: 'screening',
+                    name: 'admin-screening',
+                    component: () =>
+                        import ('../views/admin/ScreeningManage.vue')
                 }
             ]
         },

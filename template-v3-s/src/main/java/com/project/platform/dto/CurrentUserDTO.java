@@ -11,5 +11,6 @@ public class CurrentUserDTO {
     private String avatarUrl;
     private String tel;
     private String email;
+    private String role;
 
 }

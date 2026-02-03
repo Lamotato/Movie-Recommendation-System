@@ -58,7 +58,13 @@
               <span>上映：{{ formatDate(movie.releaseDate) }}</span>
             </p>
             <div class="movie-rating" v-if="movie.rating">
-              <el-rate v-model="movie.rating" disabled show-score text-color="#ff9900" />
+              <div class="rating-stars">
+                <span v-for="i in 10" :key="i"
+                      :class="['star', i <= movie.rating ? 'active' : '']">
+                  ★
+                </span>
+                <span class="rating-score">{{ movie.rating }}分</span>
+              </div>
             </div>
           </div>
         </div>
@@ -80,9 +86,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { VideoPlay } from '@element-plus/icons-vue'
+import {onMounted, ref} from 'vue'
+import {useRouter} from 'vue-router'
+import {VideoPlay} from '@element-plus/icons-vue'
 import http from '@/utils/http.js'
 
 const router = useRouter()
@@ -265,6 +271,28 @@ function formatDate(dateStr) {
   display: flex;
   align-items: center;
   margin-top: 8px;
+}
+
+.rating-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+}
+
+.rating-stars .star {
+  font-size: 14px;
+  color: #dcdfe6;
+  cursor: default;
+}
+
+.rating-stars .star.active {
+  color: #ff9900;
+}
+
+.rating-score {
+  margin-left: 5px;
+  font-size: 12px;
+  color: #606266;
 }
 
 .pagination-section {

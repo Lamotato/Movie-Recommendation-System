@@ -15,6 +15,7 @@ public class MovieDTO {
     private String name;
     private String englishName;
     private String director;
+    private String cast;
     private String description;
     private String posterUrl;
     private String trailerUrl;

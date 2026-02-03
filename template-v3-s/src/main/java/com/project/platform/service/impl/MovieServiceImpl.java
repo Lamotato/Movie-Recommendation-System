@@ -68,6 +68,8 @@ public class MovieServiceImpl implements MovieService {
         movieMapper.insert(movie);
         // 保存类型、标签关联
         saveRelations(movie.getId(), dto.getTypeIds(), dto.getTagIds());
+        // 保存演职人员信息
+        saveCast(movie.getId(), dto.getCast());
     }
 
     @Override
@@ -82,7 +84,10 @@ public class MovieServiceImpl implements MovieService {
         // 先删除旧关联，再重新插入
         movieTypeRelationMapper.deleteByMovieId(movie.getId());
         movieTagRelationMapper.deleteByMovieId(movie.getId());
+        movieCastMapper.deleteByMovieId(movie.getId());
         saveRelations(movie.getId(), dto.getTypeIds(), dto.getTagIds());
+        // 保存演职人员信息
+        saveCast(movie.getId(), dto.getCast());
     }
 
     @Override
@@ -152,6 +157,32 @@ public class MovieServiceImpl implements MovieService {
                 tagRelations.add(relation);
             }
             movieTagRelationMapper.batchInsert(tagRelations);
+        }
+    }
+
+    /**
+     * 保存演职人员信息
+     *
+     * @param movieId 电影ID
+     * @param cast    主演列表，多个主演用逗号分隔
+     */
+    private void saveCast(Integer movieId, String cast) {
+        if (StringUtils.isBlank(cast)) {
+            return;
+        }
+        // 将主演字符串按逗号分割，创建多个MovieCast记录
+        String[] actors = cast.split(",");
+        int sortOrder = 0;
+        for (String actor : actors) {
+            String name = actor.trim();
+            if (StringUtils.isNotBlank(name)) {
+                MovieCast movieCast = new MovieCast();
+                movieCast.setMovieId(movieId);
+                movieCast.setName(name);
+                movieCast.setRole("actor");
+                movieCast.setSortOrder(sortOrder++);
+                movieCastMapper.insert(movieCast);
+            }
         }
     }
 }
