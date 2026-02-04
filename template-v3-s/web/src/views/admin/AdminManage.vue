@@ -11,8 +11,8 @@
           </el-form-item>
           <el-form-item label="状态" prop="status">
             <el-select v-model="searchForm.status" placeholder="请选择" clearable style="width: 150px">
-              <el-option label="启用" value="启用"/>
-              <el-option label="禁用" value="禁用"/>
+              <el-option label="启用" value="active"/>
+              <el-option label="禁用" value="banned"/>
             </el-select>
           </el-form-item>
           <el-form-item label="">
@@ -49,8 +49,16 @@
           <el-table-column prop="email" label="邮箱" width="150"></el-table-column>
           <el-table-column prop="status" label="状态">
             <template #default="scope">
-              <el-tag type="success" v-if="scope.row.status==='启用'">启用</el-tag>
-              <el-tag type="danger" v-if="scope.row.status==='禁用'">禁用</el-tag>
+              <el-tag :type="getStatusType(scope.row.status)">
+                {{ getStatusLabel(scope.row.status) }}
+              </el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column prop="role" label="角色">
+            <template #default="scope">
+              <el-tag :type="scope.row.role === 'super_admin' ? 'warning' : 'primary'">
+                {{ scope.row.role === 'super_admin' ? '超级管理员' : '管理员' }}
+              </el-tag>
             </template>
           </el-table-column>
           <el-table-column fixed="right" label="高级操作" width="140">
@@ -109,8 +117,15 @@
         <el-form-item label="状态" prop="status"
                       :rules="[{required:true,message:'不能为空',trigger:[ 'blur','change']}]">
           <el-radio-group v-model="formData.status">
-            <el-radio label="启用"></el-radio>
-            <el-radio label="禁用"></el-radio>
+            <el-radio label="active">启用</el-radio>
+            <el-radio label="banned">禁用</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="角色" prop="role"
+                      :rules="[{required:true,message:'不能为空',trigger:[ 'blur','change']}]">
+          <el-radio-group v-model="formData.role" :disabled="!canEditRole">
+            <el-radio label="admin">管理员</el-radio>
+            <el-radio label="super_admin">超级管理员</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-form>
@@ -126,11 +141,11 @@
 
 <script setup>
 import request from "@/utils/http.js";
-import {Check, Close, Delete, Edit, Refresh, Plus, Search, RefreshLeft} from '@element-plus/icons-vue'
-import {ref, toRaw} from "vue";
+import {Check, Close, Delete, Edit, Plus, Refresh, RefreshLeft, Search} from '@element-plus/icons-vue'
+import {computed, ref, toRaw} from "vue";
 import {ElMessage, ElMessageBox} from "element-plus";
 import MyUpLoad from "@/components/MyUpload.vue";
-import MyEditor from "@/components/MyEditor.vue";
+import utils from "@/utils/tools.js";
 
 const searchFormComponents = ref();
 const tableComponents = ref();
@@ -338,6 +353,27 @@ function resetPassword(row) {
       type: 'success'
     });
   })
+}
+
+// 判断当前用户是否为super_admin
+const isSuperAdmin = computed(() => {
+  const currentUser = utils.getCurrentUser();
+  return currentUser && currentUser.role === 'super_admin';
+});
+
+// 判断是否可以编辑role字段
+const canEditRole = computed(() => {
+  return isSuperAdmin.value;
+});
+
+// 状态标签转换方法
+function getStatusLabel(status) {
+  return status === 'active' ? '启用' : '禁用';
+}
+
+// 状态类型转换方法
+function getStatusType(status) {
+  return status === 'active' ? 'success' : 'danger';
 }
 
 

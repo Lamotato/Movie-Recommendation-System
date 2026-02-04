@@ -34,8 +34,8 @@
         <el-table-column prop="email" label="邮箱" min-width="180" />
         <el-table-column prop="status" label="状态" width="100">
           <template #default="{ row }">
-            <el-tag :type="row.status === '启用' ? 'success' : 'danger'">
-              {{ row.status }}
+            <el-tag :type="getStatusType(row.status)">
+              {{ getStatusLabel(row.status) }}
             </el-tag>
           </template>
         </el-table-column>
@@ -86,8 +86,8 @@
         </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-radio-group v-model="formData.status">
-            <el-radio label="启用">启用</el-radio>
-            <el-radio label="禁用">禁用</el-radio>
+            <el-radio label="active">启用</el-radio>
+            <el-radio label="banned">禁用</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-form>
@@ -100,8 +100,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import {computed, onMounted, ref} from 'vue'
+import {ElMessage, ElMessageBox} from 'element-plus'
 import http from '@/utils/http.js'
 
 const loading = ref(false)
@@ -125,7 +125,7 @@ const formData = ref({
   nickname: '',
   tel: '',
   email: '',
-  status: '启用'
+  status: 'active'
 })
 
 const rules = {
@@ -210,7 +210,7 @@ function resetForm() {
     nickname: '',
     tel: '',
     email: '',
-    status: '启用'
+    status: 'active'
   }
   formRef.value?.resetFields()
 }
@@ -245,6 +245,16 @@ function formatDateTime(dateStr) {
   const hours = String(date.getHours()).padStart(2, '0')
   const minutes = String(date.getMinutes()).padStart(2, '0')
   return `${year}-${month}-${day} ${hours}:${minutes}`
+}
+
+// 状态标签转换方法
+function getStatusLabel(status) {
+  return status === 'active' ? '启用' : '禁用'
+}
+
+// 状态类型转换方法
+function getStatusType(status) {
+  return status === 'active' ? 'success' : 'danger'
 }
 </script>
 

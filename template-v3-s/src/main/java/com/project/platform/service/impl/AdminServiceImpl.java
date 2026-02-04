@@ -143,8 +143,8 @@ public class AdminServiceImpl implements AdminService {
         if (!PasswordUtils.matches(updatePassword.getOldPassword(), admin.getPassword())) {
             throw new CustomException("旧密码不正确");
         }
-        // 设置新密码（会自动加密）
-        admin.setPassword(updatePassword.getNewPassword());
+        // 设置新密码并进行加密
+        admin.setPassword(PasswordUtils.encode(updatePassword.getNewPassword()));
         adminMapper.updateById(admin);
     }
 

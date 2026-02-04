@@ -67,7 +67,7 @@ public class CommonController {
     public ResponseVO updateCurrentUser(@RequestBody CurrentUserDTO currentUserDTO) {
         CommonService commonService = getCommonService(CurrentUserThreadLocal.getCurrentUser().getType());
         commonService.updateCurrentUserInfo(currentUserDTO);
-        return ResponseVO.ok(currentUserDTO);
+        return ResponseVO.ok();
     }
 
     /**

@@ -141,8 +141,8 @@ public class UserServiceImpl implements UserService {
         if (!PasswordUtils.matches(updatePassword.getOldPassword(), user.getPassword())) {
             throw new CustomException("旧密码不正确");
         }
-        // 设置新密码（会自动加密）
-        user.setPassword(updatePassword.getNewPassword());
+        // 设置新密码并进行加密
+        user.setPassword(PasswordUtils.encode(updatePassword.getNewPassword()));
         userMapper.updateById(user);
     }
 
