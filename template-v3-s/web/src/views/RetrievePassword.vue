@@ -16,22 +16,12 @@
               <el-option label="用户" value="USER"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="手机号" prop="tel"
-                        :rules="[{required:true,message:'请输入手机号',trigger:[ 'blur','change']}]">
+          <el-form-item label="用户名" prop="username"
+                        :rules="[{required:true,message:'请输入用户名',trigger:[ 'blur','change']}]">
             <el-input
                 style="width: 180px"
-                placeholder="请输入手机号"
-                v-model.trim="formData.tel"
-                clearable
-            >
-            </el-input>
-          </el-form-item>
-          <el-form-item label="验证码" prop="code"
-                        :rules="[{required:true,message:'请输入验证码',trigger:[ 'blur','change']}]">
-            <el-input
-                style="width: 180px"
-                placeholder="请输入验证码"
-                v-model.trim="formData.code"
+                placeholder="请输入用户名"
+                v-model.trim="formData.username"
                 clearable
             >
             </el-input>
@@ -65,14 +55,12 @@
 import {ref} from 'vue';
 import {ElMessage} from 'element-plus';
 import http from "@/utils/http.js";
-import MyUpLoad from "@/components/MyUpload.vue";
 import router from "@/router/index.js";
 
 const formRef = ref(null);
 const formData = ref({
   type: 'USER',
-  tel: '',
-  code: '',
+  username: '',
   password: ''
 });
 

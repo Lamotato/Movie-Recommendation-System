@@ -31,6 +31,8 @@
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item @click="goToOrders">我的订单</el-dropdown-item>
+                <el-dropdown-item @click="goToEditUser">修改信息</el-dropdown-item>
+                <el-dropdown-item @click="goToEditPassword">修改密码</el-dropdown-item>
                 <el-dropdown-item divided @click="logout">退出登录</el-dropdown-item>
               </el-dropdown-menu>
             </template>
@@ -51,10 +53,10 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
-import { ArrowDown } from '@element-plus/icons-vue'
+import {computed, onMounted, ref} from 'vue'
+import {useRoute, useRouter} from 'vue-router'
+import {ElMessage} from 'element-plus'
+import {ArrowDown} from '@element-plus/icons-vue'
 import tools from '@/utils/tools.js'
 
 const route = useRoute()
@@ -88,6 +90,14 @@ function goToLogin() {
 
 function goToOrders() {
   router.push('/orders')
+}
+
+function goToEditUser() {
+  router.push('/editCurrentUser')
+}
+
+function goToEditPassword() {
+  router.push('/editPassword')
 }
 
 function logout() {

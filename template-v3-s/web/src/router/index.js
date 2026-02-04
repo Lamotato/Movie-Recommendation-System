@@ -44,6 +44,16 @@ function getRoutes() {
                     path: 'orders/:orderNo',
                     name: 'front-order-detail',
                     component: () => import('../views/front/OrderDetail.vue')
+                },
+                {
+                    path: 'editCurrentUser',
+                    name: 'front-editCurrentUser',
+                    component: () => import('../views/EditCurrentUser.vue')
+                },
+                {
+                    path: 'editPassword',
+                    name: 'front-editPassword',
+                    component: () => import('../views/EditPassword.vue')
                 }
             ]
         },

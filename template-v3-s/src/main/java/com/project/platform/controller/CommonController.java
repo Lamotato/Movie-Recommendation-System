@@ -54,7 +54,7 @@ public class CommonController {
         String type = data.getString("type");
         CommonService commonService = getCommonService(type);
         commonService.register(data);
-        return ResponseVO.ok();
+        return ResponseVO.ok(data);
     }
 
     /**
@@ -67,7 +67,7 @@ public class CommonController {
     public ResponseVO updateCurrentUser(@RequestBody CurrentUserDTO currentUserDTO) {
         CommonService commonService = getCommonService(CurrentUserThreadLocal.getCurrentUser().getType());
         commonService.updateCurrentUserInfo(currentUserDTO);
-        return ResponseVO.ok();
+        return ResponseVO.ok(currentUserDTO);
     }
 
     /**
@@ -93,7 +93,7 @@ public class CommonController {
     public ResponseVO retrievePassword(@RequestBody RetrievePasswordDTO retrievePasswordDTO) {
         CommonService commonService = getCommonService(retrievePasswordDTO.getType());
         commonService.retrievePassword(retrievePasswordDTO);
-        return ResponseVO.ok();
+        return ResponseVO.ok(retrievePasswordDTO);
     }
 
     /**

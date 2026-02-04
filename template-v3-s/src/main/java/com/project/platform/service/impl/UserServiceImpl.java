@@ -129,6 +129,8 @@ public class UserServiceImpl implements UserService {
         user.setAvatarUrl(currentUserDTO.getAvatarUrl());
         user.setTel(currentUserDTO.getTel());
         user.setEmail(currentUserDTO.getEmail());
+        user.setGender(currentUserDTO.getGender());
+        user.setBirthday(currentUserDTO.getBirthday());
         userMapper.updateById(user);
     }
 
@@ -154,11 +156,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void retrievePassword(RetrievePasswordDTO retrievePasswordDTO) {
-        User user = userMapper.selectByTel(retrievePasswordDTO.getTel());
+        User user = userMapper.selectByUserName(retrievePasswordDTO.getUsername());
         if (user == null) {
-            throw new CustomException("手机号不存在");
+            throw new CustomException("用户名不存在");
         }
-        // TODO 校验验证码
         // 设置新密码
         user.setPassword(PasswordUtils.encode(retrievePasswordDTO.getPassword()));
         userMapper.updateById(user);

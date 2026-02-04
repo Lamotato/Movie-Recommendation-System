@@ -2,6 +2,8 @@ package com.project.platform.dto;
 
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
 public class CurrentUserDTO {
     private Integer id;
@@ -12,5 +14,7 @@ public class CurrentUserDTO {
     private String tel;
     private String email;
     private String role;
+    private String gender;
+    private LocalDate birthday;
 
 }

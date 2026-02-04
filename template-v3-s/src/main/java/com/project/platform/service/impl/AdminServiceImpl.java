@@ -14,7 +14,6 @@ import com.project.platform.vo.PageVO;
 import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -158,11 +157,11 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void retrievePassword(RetrievePasswordDTO retrievePasswordDTO) {
-        Admin admin = adminMapper.selectByTel(retrievePasswordDTO.getTel());
+        Admin admin = adminMapper.selectByUserName(retrievePasswordDTO.getUsername());
         if (admin == null) {
-            throw new CustomException("手机号不存在");
+            throw new CustomException("用户名不存在");
         }
-        //TODO 校验验证码
+        // 设置新密码
         admin.setPassword(PasswordUtils.encode(retrievePasswordDTO.getPassword()));
         adminMapper.updateById(admin);
     }
