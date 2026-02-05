@@ -69,8 +69,9 @@ public class CinemaController {
      * 审批影院
      */
     @PutMapping("approve/{id}")
-    public ResponseVO<Void> approve(@PathVariable("id") Integer id) {
-        cinemaService.approve(id);
+    public ResponseVO<Void> approve(@PathVariable("id") Integer id, @RequestBody Map<String, String> params) {
+        String status = params.get("status");
+        cinemaService.approve(id, status);
         return ResponseVO.ok();
     }
 

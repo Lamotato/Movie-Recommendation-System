@@ -1,8 +1,9 @@
 package com.project.platform.entity;
 
 
-import java.time.LocalDateTime;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 /**
  * 影院房间表
@@ -33,7 +34,10 @@ public class CinemaRoom {
      * 列数
      */
     private Integer colCount;
-
+    /**
+     * 座位数
+     */
+    private Integer seatCount;
     /**
      * 房间描述
      */

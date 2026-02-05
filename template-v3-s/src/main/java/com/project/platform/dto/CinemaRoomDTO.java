@@ -12,6 +12,7 @@ public class CinemaRoomDTO {
     private String name;
     private Integer rowCount;
     private Integer colCount;
+    private Integer seatCount;
     private String description;
     private String status;
 }

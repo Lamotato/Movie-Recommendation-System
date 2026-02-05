@@ -37,7 +37,7 @@ public interface CinemaService {
     /**
      * 审批影院（管理员）
      */
-    void approve(Integer id);
+    void approve(Integer id, String status);
 
     /**
      * 删除影院

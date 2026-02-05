@@ -407,3 +407,8 @@ COLUMN longitude,
 DROP
 COLUMN latitude,
 ADD COLUMN description VARCHAR(500) COMMENT '影院描述';
+
+-- 为cinema_room表添加座位数字段
+ALTER TABLE cinema_room
+    ADD COLUMN seat_count INT COMMENT '座位数' AFTER col_count;
+

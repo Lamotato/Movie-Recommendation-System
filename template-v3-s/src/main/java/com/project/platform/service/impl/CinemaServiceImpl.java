@@ -72,12 +72,16 @@ public class CinemaServiceImpl implements CinemaService {
     }
 
     @Override
-    public void approve(Integer id) {
+    public void approve(Integer id, String status) {
         Cinema cinema = cinemaMapper.selectByPrimaryKey(id);
         if (cinema == null) {
             throw new CustomException("影院不存在");
         }
-        cinema.setStatus("active");
+        // 验证状态值是否有效
+        if (!"active".equals(status) && !"inactive".equals(status)) {
+            throw new CustomException("无效的状态值");
+        }
+        cinema.setStatus(status);
         cinema.setUpdateTime(LocalDateTime.now());
         cinemaMapper.updateById(cinema);
     }

@@ -20,6 +20,7 @@
             <if test="name != null">name,</if>
             <if test="rowCount != null">row_count,</if>
             <if test="colCount != null">col_count,</if>
+            <if test="seatCount != null">seat_count,</if>
             <if test="description != null">description,</if>
             <if test="status != null">status,</if>
         </trim>
@@ -29,6 +30,7 @@
             <if test="name != null">#{name},</if>
             <if test="rowCount != null">#{rowCount},</if>
             <if test="colCount != null">#{colCount},</if>
+            <if test="seatCount != null">#{seatCount},</if>
             <if test="description != null">#{description},</if>
             <if test="status != null">#{status},</if>
         </trim>
@@ -42,6 +44,7 @@
             <if test="name != null">name = #{name},</if>
             <if test="rowCount != null">row_count = #{rowCount},</if>
             <if test="colCount != null">col_count = #{colCount},</if>
+            <if test="seatCount != null">seat_count = #{seatCount},</if>
             <if test="description != null">description = #{description},</if>
             <if test="status != null">status = #{status},</if>
         </set>
