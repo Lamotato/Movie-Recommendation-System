@@ -2,8 +2,6 @@ package com.project.platform.dto;
 
 import lombok.Data;
 
-import java.math.BigDecimal;
-
 /**
  * 影院新增/修改 DTO
  */
@@ -14,7 +12,6 @@ public class CinemaDTO {
     private String address;
     private String tel;
     private String email;
-    private BigDecimal longitude;
-    private BigDecimal latitude;
+    private String description;
     private String status;
 }

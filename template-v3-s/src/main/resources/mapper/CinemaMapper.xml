@@ -39,8 +39,7 @@
             <if test="address != null">address,</if>
             <if test="tel != null">tel,</if>
             <if test="email != null">email,</if>
-            <if test="longitude != null">longitude,</if>
-            <if test="latitude != null">latitude,</if>
+            <if test="description != null">description,</if>
             <if test="status != null">status,</if>
         </trim>
         VALUES
@@ -49,8 +48,7 @@
             <if test="address != null">#{address},</if>
             <if test="tel != null">#{tel},</if>
             <if test="email != null">#{email},</if>
-            <if test="longitude != null">#{longitude},</if>
-            <if test="latitude != null">#{latitude},</if>
+            <if test="description != null">#{description},</if>
             <if test="status != null">#{status},</if>
         </trim>
     </insert>
@@ -63,8 +61,7 @@
             <if test="address != null">address = #{address},</if>
             <if test="tel != null">tel = #{tel},</if>
             <if test="email != null">email = #{email},</if>
-            <if test="longitude != null">longitude = #{longitude},</if>
-            <if test="latitude != null">latitude = #{latitude},</if>
+            <if test="description != null">description = #{description},</if>
             <if test="status != null">status = #{status},</if>
         </set>
         WHERE id = #{id}

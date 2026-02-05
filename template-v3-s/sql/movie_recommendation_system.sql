@@ -400,3 +400,10 @@ INSERT INTO `movie_tag` (`name`, `category`) VALUES
 ('紧张刺激', 'mood');
 
 SET FOREIGN_KEY_CHECKS = 1;
+-- 删除longitude和latitude字段，并添加description字段
+ALTER TABLE cinema
+DROP
+COLUMN longitude,
+DROP
+COLUMN latitude,
+ADD COLUMN description VARCHAR(500) COMMENT '影院描述';

@@ -1,9 +1,9 @@
 package com.project.platform.entity;
 
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 /**
  * 影院表
@@ -36,14 +36,9 @@ public class Cinema {
     private String email;
 
     /**
-     * 经度
+     * 影院描述
      */
-    private BigDecimal longitude;
-
-    /**
-     * 纬度
-     */
-    private BigDecimal latitude;
+    private String description;
 
     /**
      * 状态：pending/active/inactive（pending需要管理员认证）
