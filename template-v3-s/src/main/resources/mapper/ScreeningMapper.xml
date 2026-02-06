@@ -3,8 +3,15 @@
 <mapper namespace="com.project.platform.mapper.ScreeningMapper">
 
     <select id="queryPage" resultType="com.project.platform.entity.Screening">
-        SELECT s.*
+        SELECT
+        s.*,
+        m.name as movieName,
+        c.name as cinemaName,
+        cr.name as roomName
         FROM screening s
+        LEFT JOIN movie m ON s.movie_id = m.id
+        LEFT JOIN cinema c ON s.cinema_id = c.id
+        LEFT JOIN cinema_room cr ON s.room_id = cr.id
         <include refid="queryConditions"/>
         ORDER BY s.start_time DESC
         LIMIT #{offset}, #{pageSize}
@@ -31,6 +38,12 @@
             <if test="query.status != null and query.status.trim() != ''">
                 AND s.status = #{query.status}
             </if>
+            <if test="query.movieName != null and query.movieName.trim() != ''">
+                AND m.name LIKE CONCAT('%', #{query.movieName}, '%')
+            </if>
+            <if test="query.cinemaName != null and query.cinemaName.trim() != ''">
+                AND c.name LIKE CONCAT('%', #{query.cinemaName}, '%')
+            </if>
         </where>
     </sql>
 
@@ -45,6 +58,8 @@
             <if test="endTime != null">end_time,</if>
             <if test="price != null">price,</if>
             <if test="status != null">status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
         </trim>
         VALUES
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -55,6 +70,8 @@
             <if test="endTime != null">#{endTime},</if>
             <if test="price != null">#{price},</if>
             <if test="status != null">#{status},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
         </trim>
     </insert>
 
@@ -69,6 +86,7 @@
             <if test="endTime != null">end_time = #{endTime},</if>
             <if test="price != null">price = #{price},</if>
             <if test="status != null">status = #{status},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
         </set>
         WHERE id = #{id}
     </update>

@@ -66,8 +66,9 @@ public class ScreeningController {
      * 审批场次
      */
     @PutMapping("approve/{id}")
-    public ResponseVO<Void> approve(@PathVariable("id") Integer id) {
-        screeningService.approve(id);
+    public ResponseVO<Void> approve(@PathVariable("id") Integer id, @RequestBody Map<String, String> params) {
+        String status = params.get("status");
+        screeningService.approve(id, status);
         return ResponseVO.ok();
     }
 

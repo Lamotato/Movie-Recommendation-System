@@ -33,8 +33,10 @@ public interface ScreeningService {
 
     /**
      * 审批场次（管理员）
+     * @param id 场次ID
+     * @param status 状态：active（通过）/cancelled（拒绝）
      */
-    void approve(Integer id);
+    void approve(Integer id, String status);
 
     /**
      * 删除场次

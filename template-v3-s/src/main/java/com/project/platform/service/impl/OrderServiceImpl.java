@@ -1,7 +1,10 @@
 package com.project.platform.service.impl;
 
 import com.project.platform.dto.OrderCreateDTO;
-import com.project.platform.entity.*;
+import com.project.platform.entity.Order;
+import com.project.platform.entity.OrderDetail;
+import com.project.platform.entity.Screening;
+import com.project.platform.entity.Seat;
 import com.project.platform.exception.CustomException;
 import com.project.platform.mapper.*;
 import com.project.platform.service.OrderService;
@@ -179,6 +182,17 @@ public class OrderServiceImpl implements OrderService {
         if (!"pending".equals(order.getStatus())) {
             throw new CustomException("订单状态不正确，无法支付");
         }
+
+        // 更新座位销售状态为已售出
+        List<OrderDetail> details = orderDetailMapper.listByOrderId(order.getId());
+        for (OrderDetail detail : details) {
+            Seat seat = seatMapper.selectByPrimaryKey(detail.getSeatId());
+            if (seat != null) {
+                seat.setSalesStatus("sold");
+                seatMapper.updateByPrimaryKeySelective(seat);
+            }
+        }
+
         order.setStatus("paid");
         order.setPayTime(LocalDateTime.now());
         order.setUpdateTime(LocalDateTime.now());

@@ -1,9 +1,10 @@
 package com.project.platform.entity;
 
 
+import lombok.Data;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import lombok.Data;
 
 /**
  * 放映场次表
@@ -59,5 +60,20 @@ public class Screening {
      * 更新时间
      */
     private LocalDateTime updateTime;
+
+    /**
+     * 电影名称（非数据库字段，仅用于查询展示）
+     */
+    private String movieName;
+
+    /**
+     * 影院名称（非数据库字段，仅用于查询展示）
+     */
+    private String cinemaName;
+
+    /**
+     * 房间名称（非数据库字段，仅用于查询展示）
+     */
+    private String roomName;
 
 }

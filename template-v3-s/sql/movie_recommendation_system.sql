@@ -412,3 +412,6 @@ ADD COLUMN description VARCHAR(500) COMMENT '影院描述';
 ALTER TABLE cinema_room
     ADD COLUMN seat_count INT COMMENT '座位数' AFTER col_count;
 
+-- 为seat表添加售出情况字段
+ALTER TABLE `seat`
+    ADD COLUMN `sales_status` varchar(20) DEFAULT 'unsold' COMMENT '销售状态：sold/unsold' AFTER `status`;

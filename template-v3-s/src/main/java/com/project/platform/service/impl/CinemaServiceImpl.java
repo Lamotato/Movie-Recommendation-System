@@ -106,6 +106,10 @@ public class CinemaServiceImpl implements CinemaService {
         validateRoom(dto);
         CinemaRoom room = new CinemaRoom();
         BeanUtils.copyProperties(dto, room);
+        // 自动计算座位数
+        if (room.getRowCount() != null && room.getColCount() != null) {
+            room.setSeatCount(room.getRowCount() * room.getColCount());
+        }
         if (room.getStatus() == null) {
             room.setStatus("active");
         }
@@ -121,6 +125,10 @@ public class CinemaServiceImpl implements CinemaService {
         validateRoom(dto);
         CinemaRoom room = new CinemaRoom();
         BeanUtils.copyProperties(dto, room);
+        // 自动计算座位数
+        if (room.getRowCount() != null && room.getColCount() != null) {
+            room.setSeatCount(room.getRowCount() * room.getColCount());
+        }
         cinemaRoomMapper.updateById(room);
     }
 

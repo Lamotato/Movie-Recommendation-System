@@ -34,6 +34,7 @@
             <if test="colNum != null">col_num,</if>
             <if test="seatType != null">seat_type,</if>
             <if test="status != null">status,</if>
+            <if test="salesStatus != null">sales_status,</if>
         </trim>
         VALUES
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -42,7 +43,22 @@
             <if test="colNum != null">#{colNum},</if>
             <if test="seatType != null">#{seatType},</if>
             <if test="status != null">#{status},</if>
+            <if test="salesStatus != null">#{salesStatus},</if>
         </trim>
     </insert>
+
+    <!-- 选择性更新 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.project.platform.entity.Seat">
+        UPDATE seat
+        <set>
+            <if test="roomId != null">room_id = #{roomId},</if>
+            <if test="rowNum != null">row_num = #{rowNum},</if>
+            <if test="colNum != null">col_num = #{colNum},</if>
+            <if test="seatType != null">seat_type = #{seatType},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="salesStatus != null">sales_status = #{salesStatus},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
 
 </mapper>

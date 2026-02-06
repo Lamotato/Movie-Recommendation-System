@@ -61,12 +61,16 @@ public class ScreeningServiceImpl implements ScreeningService {
     }
 
     @Override
-    public void approve(Integer id) {
+    public void approve(Integer id, String status) {
         Screening screening = screeningMapper.selectByPrimaryKey(id);
         if (screening == null) {
             throw new CustomException("场次不存在");
         }
-        screening.setStatus("active");
+        // 验证状态值是否有效
+        if (!"active".equals(status) && !"cancelled".equals(status)) {
+            throw new CustomException("无效的状态值");
+        }
+        screening.setStatus(status);
         screening.setUpdateTime(LocalDateTime.now());
         screeningMapper.updateById(screening);
     }

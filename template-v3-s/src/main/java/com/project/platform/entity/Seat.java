@@ -1,8 +1,9 @@
 package com.project.platform.entity;
 
 
-import java.time.LocalDateTime;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 /**
  * 座位表
@@ -43,5 +44,10 @@ public class Seat {
      * 创建时间
      */
     private LocalDateTime createTime;
+
+    /**
+     * 销售状态：sold/unsold
+     */
+    private String salesStatus;
 
 }
