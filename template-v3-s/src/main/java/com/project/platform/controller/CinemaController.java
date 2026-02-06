@@ -94,6 +94,18 @@ public class CinemaController {
     }
 
     /**
+     * 根据ID查询房间
+     */
+    @GetMapping("room/{id}")
+    public ResponseVO<CinemaRoom> getRoom(@PathVariable("id") Integer id) {
+        CinemaRoom room = cinemaService.getRoomById(id);
+        if (room == null) {
+            throw new NotFoundException("房间不存在");
+        }
+        return ResponseVO.ok(room);
+    }
+
+    /**
      * 新增房间
      */
     @PostMapping("room/add")

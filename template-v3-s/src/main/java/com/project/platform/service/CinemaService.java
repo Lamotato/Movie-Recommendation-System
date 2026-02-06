@@ -50,6 +50,11 @@ public interface CinemaService {
     List<CinemaRoom> listRoomsByCinemaId(Integer cinemaId);
 
     /**
+     * 根据ID查询房间
+     */
+    CinemaRoom getRoomById(Integer id);
+
+    /**
      * 新增房间
      */
     void insertRoom(CinemaRoomDTO dto);

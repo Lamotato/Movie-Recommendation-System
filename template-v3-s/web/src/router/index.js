@@ -117,6 +117,12 @@ function getRoutes() {
                         import ('../views/admin/RoomManage.vue')
                 },
                 {
+                    path: 'seat/manage',
+                    name: 'admin-seat-manage',
+                    component: () =>
+                        import ('../views/admin/SeatManage.vue')
+                },
+                {
                     path: 'screening',
                     name: 'admin-screening',
                     component: () =>

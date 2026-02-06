@@ -29,9 +29,10 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="180" fixed="right">
+        <el-table-column label="操作" width="280" fixed="right">
           <template #default="{ row }">
             <el-button type="primary" size="small" @click="handleEdit(row)">编辑</el-button>
+            <el-button type="success" size="small" @click="handleSeatManage(row)">座位管理</el-button>
             <el-button type="danger" size="small" @click="handleDelete(row)">删除</el-button>
           </template>
         </el-table-column>
@@ -78,10 +79,11 @@
 <script setup>
 import {computed, onMounted, ref} from 'vue'
 import {ElMessage, ElMessageBox} from 'element-plus'
-import {useRoute} from 'vue-router'
+import {useRoute, useRouter} from 'vue-router'
 import http from '@/utils/http.js'
 
 const route = useRoute()
+const router = useRouter()
 const loading = ref(false)
 const rooms = ref([])
 const cinemaId = ref(null)
@@ -148,6 +150,16 @@ async function handleEdit(row) {
     cinemaId: cinemaId.value
   }
   dialogVisible.value = true
+}
+
+function handleSeatManage(row) {
+  router.push({
+    path: '/admin/seat/manage',
+    query: {
+      roomId: row.id,
+      roomName: row.name
+    }
+  })
 }
 
 async function handleDelete(row) {

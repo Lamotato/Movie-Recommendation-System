@@ -102,6 +102,11 @@ public class CinemaServiceImpl implements CinemaService {
     }
 
     @Override
+    public CinemaRoom getRoomById(Integer id) {
+        return cinemaRoomMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
     public void insertRoom(CinemaRoomDTO dto) {
         validateRoom(dto);
         CinemaRoom room = new CinemaRoom();
